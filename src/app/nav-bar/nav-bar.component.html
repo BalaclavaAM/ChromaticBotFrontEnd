@@ -1,15 +1,26 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <a class="navbar-brand">{{ 'title' | translate }}</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
+    aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav">
       <li class="nav-item active">
-        <a class="nav-link" routerLink="/home" routerLinkActive="nav-link--active">Home</a>
+        <a class="nav-link" routerLink="/home" routerLinkActive="nav-link--active">{{ 'navBar.home' | translate }}</a>
       </li>
       <li>
-        <a class="nav-link" routerLink="/about" routerLinkActive="nav-link--active">About</a>
+        <a class="nav-link" routerLink="/about" routerLinkActive="nav-link--active">{{ 'navBar.about' | translate }}</a>
+      </li>
+      <li class="btn-group dropdown" dropdown>
+        <a class="nav-link dropdown-toggle" href id="basic-link" dropdownToggle (click)="false"
+          aria-controls="basic-link-dropdown">
+          {{ 'navBar.setLanguage' | translate }}
+        </a>
+        <div id="basic-link-dropdown" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="basic-link">
+          <a class="dropdown-item" (click)="switchLanguage('es')">{{ 'navBar.languages.spanish' | translate }}</a>
+          <a class="dropdown-item" (click)="switchLanguage('en')">{{ 'navBar.languages.english' | translate }}</a>
+        </div>
       </li>
     </ul>
   </div>

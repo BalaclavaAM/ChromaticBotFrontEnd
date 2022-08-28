@@ -1,5 +1,18 @@
 {
   "title": "ChromaticBot",
+  "navBar":{
+    "about": "About",
+    "home": "Home",
+    "setLanguage": "Language",
+    "languages": {
+      "spanish": "Spanish",
+      "english": "English"
+    }
+  },
+  "home": {
+    "loginDescription": "Get logged into Spotify to allow ChromaticBot do his magic.",
+    "loginButton": "Login to Spotify"
+  },
   "mainPage":{
     "description": "ChromaticBot is an Spotify bot to retrieve your albums ordered with the chromatic pattern."
   }

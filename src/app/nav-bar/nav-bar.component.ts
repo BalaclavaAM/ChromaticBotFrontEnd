@@ -12,5 +12,7 @@ export class NavBarComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
+  public switchLanguage(lang: string){
+    this.translate.use(lang);
+  }
 }
