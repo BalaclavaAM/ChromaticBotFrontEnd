@@ -7,14 +7,13 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./app.component.sass']
 })
 export class AppComponent {
-  title = 'chromatic-bot';
 
   constructor (public translate: TranslateService){
     translate.addLangs(['en', 'es']);
     translate.setDefaultLang('en');
   }
 
-  public switchLenguage(lang: string){
+  public switchLanguage(lang: string){
     this.translate.use(lang);
   }
 }

@@ -185,3 +185,8 @@ baseline.json
 # Husky
 .husky/_
 *.pack
+
+# Ignore .angular folder
+.angular/
+.angular
+*.pack

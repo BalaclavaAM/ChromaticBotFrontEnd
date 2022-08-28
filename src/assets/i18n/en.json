@@ -1,4 +1,5 @@
 {
+  "title": "ChromaticBot",
   "mainPage":{
     "description": "ChromaticBot is an Spotify bot to retrieve your albums ordered with the chromatic pattern."
   }
