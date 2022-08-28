@@ -188,5 +188,4 @@ baseline.json
 
 # Ignore .angular folder
 .angular/
-.angular
-*.pack
+.angular/*
