@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { OAuthService } from 'angular-oauth2-oidc';
 
 @Component({
   selector: 'app-home',
@@ -8,9 +9,13 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(public translate: TranslateService) { }
+  constructor(public translate: TranslateService, private oauthService: OAuthService) { }
 
   ngOnInit(): void {
   }
 
+
+  buttonClick(): void {
+    this.oauthService.initCodeFlow();
+  }
 }

@@ -12,6 +12,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavBarComponent } from './ui-components/nav-bar/nav-bar.component';
 import { AboutBotComponent } from './pages/about-bot/about-bot.component';
+import { OAuthModule } from 'angular-oauth2-oidc';
 
 export function createTranslateLoader(http: HttpClient){
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -37,7 +38,8 @@ export function createTranslateLoader(http: HttpClient){
         useFactory: (createTranslateLoader),
         deps: [HttpClient]
       }
-    })
+    }),
+    OAuthModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
