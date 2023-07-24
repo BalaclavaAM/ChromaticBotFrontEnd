@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { SpotifyLoginInfo } from 'src/app/models/spotifyLoginInfo';
+import { SpotifyTopInfo } from 'src/app/models/spotifyTopInfo';
 import { SpotifyService } from 'src/app/services/spotify.service';
 import { UserInfoService } from 'src/app/services/user-info.service';
 
@@ -14,6 +15,8 @@ export class HomeComponent implements OnInit {
   userProfile: SpotifyLoginInfo | undefined = this.userInfoService.userInfo;
 
   isLoggedIn: boolean = this.userInfoService.loggedIn;
+
+  imagesInfo: SpotifyTopInfo[][] = [];
 
   constructor(public translate: TranslateService, private spotifyService: SpotifyService, private userInfoService: UserInfoService) { }
 
@@ -31,16 +34,10 @@ export class HomeComponent implements OnInit {
     this.spotifyService.login();
   }
 
-  refreshToken(): void {
-    this.spotifyService.refreshToken();
-  }
-
-  getToken() : void {
-    const token = this.spotifyService.getToken();
-    console.log(token);
-  }
-
-  logout(): void {
-    this.spotifyService.logout();
+  getTop50Tracks(): void {
+    this.spotifyService.getTop50Tracks().subscribe((res) => {
+      console.log(res);
+      this.imagesInfo = res;
+    });
   }
 }
