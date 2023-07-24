@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { OAuthService } from 'angular-oauth2-oidc';
 import { SpotifyLoginInfo } from 'src/app/models/spotifyLoginInfo';
-import { authCodeFlowConfig } from 'src/app/services/oauthconfig';
 import { SpotifyService } from 'src/app/services/spotify.service';
 
 @Component({
