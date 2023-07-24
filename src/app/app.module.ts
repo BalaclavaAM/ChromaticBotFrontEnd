@@ -13,6 +13,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavBarComponent } from './ui-components/nav-bar/nav-bar.component';
 import { AboutBotComponent } from './pages/about-bot/about-bot.component';
 import { OAuthModule } from 'angular-oauth2-oidc';
+import { CallbackComponent } from './pages/callback/callback.component';
 
 export function createTranslateLoader(http: HttpClient){
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -23,7 +24,8 @@ export function createTranslateLoader(http: HttpClient){
     AppComponent,
     NavBarComponent,
     AboutBotComponent,
-    HomeComponent
+    HomeComponent,
+    CallbackComponent
   ],
   imports: [
     BrowserModule,

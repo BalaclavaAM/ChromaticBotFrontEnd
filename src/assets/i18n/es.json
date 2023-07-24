@@ -11,7 +11,9 @@
   },
   "home": {
     "loginDescription": "Logeate dentro de Spotify para que ChromaticBot haga su magia.",
-    "loginButton": "Iniciar sesión en Spotify"
+    "loginButton": "Iniciar sesión en Spotify",
+    "logoutButton": "Cerrar sesión",
+    "welcome": "Bienvenido, "
   },
   "mainPage":{
     "description": "ChromaticBot es un bot de Spotify para obtener tus álbumes ordenados con el patrón cromático."
