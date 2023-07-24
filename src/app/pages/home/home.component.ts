@@ -19,7 +19,6 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     if (this.spotifyService.isLoggedIn) {
       this.spotifyService.getUserInfo().then((data) => {
-        console.log('trying to get user info');
         this.userProfile = data.info as SpotifyLoginInfo;
       });
     }

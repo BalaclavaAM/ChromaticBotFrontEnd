@@ -7,7 +7,8 @@
     "languages": {
       "spanish": "Spanish",
       "english": "English"
-    }
+    },
+    "logout": "Logout"
   },
   "home": {
     "loginDescription": "Get logged into Spotify to allow ChromaticBot do his magic.",
