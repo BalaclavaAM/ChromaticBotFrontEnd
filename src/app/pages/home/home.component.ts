@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { SpotifyLoginInfo } from 'src/app/models/spotifyLoginInfo';
 import { SpotifyService } from 'src/app/services/spotify.service';
+import { UserInfoService } from 'src/app/services/user-info.service';
 
 @Component({
   selector: 'app-home',
@@ -10,20 +11,19 @@ import { SpotifyService } from 'src/app/services/spotify.service';
 })
 export class HomeComponent implements OnInit {
 
-  userProfile: SpotifyLoginInfo | undefined;
+  userProfile: SpotifyLoginInfo | undefined = this.userInfoService.userInfo;
 
-  constructor(public translate: TranslateService, private spotifyService: SpotifyService) { }
+  isLoggedIn: boolean = this.userInfoService.loggedIn;
+
+  constructor(public translate: TranslateService, private spotifyService: SpotifyService, private userInfoService: UserInfoService) { }
 
   ngOnInit(): void {
-    if (this.spotifyService.isLoggedIn) {
-      this.spotifyService.getUserInfo().then((data) => {
-        this.userProfile = data.info as SpotifyLoginInfo;
-      });
-    }
-  }
-
-  get isLoggedIn(): boolean {
-    return this.spotifyService.isLoggedIn;
+    this.userInfoService.onChanged.subscribe((userInfo) => {
+      this.userProfile = userInfo;
+    });
+    this.userInfoService.onLoggedInChanged.subscribe((loggedIn) => {
+      this.isLoggedIn = loggedIn;
+    });
   }
 
 

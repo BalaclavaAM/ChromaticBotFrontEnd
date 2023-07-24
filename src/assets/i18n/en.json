@@ -14,7 +14,9 @@
     "loginDescription": "Get logged into Spotify to allow ChromaticBot do his magic.",
     "loginButton": "Login to Spotify",
     "logoutButton": "Logout",
-    "welcome": "Welcome, "
+    "welcome": "Welcome, ",
+    "startJourney": "Lets start your journey!",
+    "startJourneyBtn": "Start"
   },
   "mainPage":{
     "description": "ChromaticBot is an Spotify bot to retrieve your albums ordered with the chromatic pattern."

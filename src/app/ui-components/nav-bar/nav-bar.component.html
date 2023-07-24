@@ -14,27 +14,27 @@
           <a class="nav-link" routerLink="/about" routerLinkActive="nav-link--active">{{ 'navBar.about' | translate
             }}</a>
         </li>
-        <li class="btn-group dropdown" dropdown>
-          <a class="nav-link dropdown-toggle" href id="basic-link" dropdownToggle (click)="false"
-            aria-controls="basic-link-dropdown">
-            {{ 'navBar.setLanguage' | translate }}
-          </a>
-          <div id="basic-link-dropdown" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="basic-link">
+        <div ngbDropdown class="d-inline-block">
+          <li class="nav-link btn-group dropdown" id="dropdownMenu1" ngbDropdownToggle>Language</li>
+          <div ngbDropdownMenu aria-labelledby="dropdownMenu1">
             <a class="dropdown-item" (click)="switchLanguage('es')">{{ 'navBar.languages.spanish' | translate }}</a>
             <a class="dropdown-item" (click)="switchLanguage('en')">{{ 'navBar.languages.english' | translate }}</a>
           </div>
-        </li>
+        </div>
       </ul>
-      <li *ngIf="isLoggedIn" class="d-flex nav-item">
+      
+      <!-- Add the user photo and logout dropdown here -->
+      <div class="d-flex align-items-center" *ngIf="this.isLoggedIn">
         <div ngbDropdown class="d-inline-block">
-          <button class="btn btn-dark" id="dropdownMenu2" ngbDropdownToggle>Toggle dropdown</button>
+          <a class="nav-link btn-group dropdown" id="dropdownMenu2" ngbDropdownToggle>
+            <img [src]="userProfile?.images?.[0]?.url" alt="User Photo" class="user-photo mr-2" width="32" height="32">
+            {{ userProfile?.display_name }}
+          </a>
           <div ngbDropdownMenu aria-labelledby="dropdownMenu2">
-            <button class="dropdown-item">Action - 1</button>
-            <button class="dropdown-item">Action - 2</button>
+            <a class="dropdown-item" (click)="logout()">{{ 'navBar.logout' | translate }}</a>
           </div>
         </div>
-        <a class="nav-link" (click)="logout()">{{ 'navBar.logout' | translate }}</a>
-      </li>
+      </div>
     </div>
   </div>
 </nav>

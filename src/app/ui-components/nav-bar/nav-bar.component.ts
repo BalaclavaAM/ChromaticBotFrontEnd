@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { SpotifyLoginInfo } from 'src/app/models/spotifyLoginInfo';
 import { SpotifyService } from 'src/app/services/spotify.service';
+import { UserInfoService } from 'src/app/services/user-info.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -8,16 +10,26 @@ import { SpotifyService } from 'src/app/services/spotify.service';
   styleUrls: ['./nav-bar.component.sass']
 })
 export class NavBarComponent implements OnInit {
-
-  constructor(public translate: TranslateService, private spotifyService: SpotifyService) { }
+  userProfile: SpotifyLoginInfo | undefined = this.userInfoService.userInfo;
+  isLoggedIn: boolean = this.userInfoService.loggedIn;
+  constructor(public translate: TranslateService, private spotifyService: SpotifyService, private userInfoService: UserInfoService) { }
 
   ngOnInit(): void {
+    this.userInfoService.onChanged.subscribe((userInfo) => {
+      this.userProfile = userInfo;
+    });
+    this.userInfoService.onLoggedInChanged.subscribe((loggedIn) => {
+      if (loggedIn) {
+        this.isLoggedIn = true;
+      }
+      else {
+        this.isLoggedIn = false;
+      }
+    });
   }
+
   public switchLanguage(lang: string){
     this.translate.use(lang);
-  }
-  get isLoggedIn(): boolean {
-    return this.spotifyService.isLoggedIn;
   }
   logout(): void {
     this.spotifyService.logout();
