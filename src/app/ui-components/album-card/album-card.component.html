@@ -1,20 +1,22 @@
-<div class="album-card">
-    <div class="album-art-container">
-        <img class="album-image" (click)="clickDisplayData()" [src]="albumData?.image" [alt]="albumData?.album"
-            height="150" width="150">
-        <ul class="album-colors">
-            <li *ngFor="let color of albumData?.colors" [style.background-color]="'rgb(' + color.join(', ') + ')'"></li>
-        </ul>
-    </div>
-    <div class="album-info">
-        <h4 class="album-title text-center" placement="bottom" [ngbTooltip]="albumData?.album">{{ smallTitle }}</h4>
-        <div *ngIf="displayData">
-            <p class="album-colorfulness">Colorfulness: {{ albumData?.colorfulness }}</p>
-            <h5>Songs:</h5>
-            <ul class="album-songs">
-                <li *ngFor="let song of albumData?.songs">{{ song.name }} - {{ song.artists }}</li>
+<div class="album-card"  [@cardFlip]="state" (click)="cardClicked()">
+    <div class="face back" *ngIf="state === 'default'">
+        <div class="album-art-container">
+            <img class="album-image" (click)="clickDisplayData()" [src]="albumData?.image" [alt]="albumData?.album"
+                height="150" width="150">
+            <ul class="album-colors">
+                <li *ngFor="let color of albumData?.colors" [style.background-color]="'rgb(' + color.join(', ') + ')'">
+                </li>
             </ul>
         </div>
+        <div class="album-info">
+            <h4 class="album-title text-center" placement="bottom" [ngbTooltip]="albumData?.album">{{ smallTitle }}</h4>
+        </div>
+        <ul class="dominant-bar" [style.background-color]="'rgb(' + albumData?.dominant?.join(', ') + ')'"></ul>
     </div>
-    <ul class="dominant-bar" [style.background-color]="'rgb(' + albumData?.dominant?.join(', ') + ')'"></ul>
+    <div class="face front" *ngIf="state === 'flipped'">
+        <h5>Songs:</h5>
+        <ul class="album-songs">
+            <li *ngFor="let song of albumData?.songs">{{ song.name }} - {{ song.artists }}</li>
+        </ul>
+    </div>
 </div>
