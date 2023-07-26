@@ -2,15 +2,13 @@
       <h6>{{ 'home.loginDescription' | translate }}</h6>
       <button class="btn btn-success" (click)="login()">{{ 'home.loginButton' | translate }}</button>
 </div>
-<div>
-      <div class="row" *ngFor="let group of imagesInfo">
-            <div class="col-12 col-md-4 col-lg-3 mb-4" *ngFor="let imageInfo of group">
-                <img [src]="imageInfo.image" alt="{{ imageInfo.album }}" height="300" width="300">
-            </div>
-          </div>
+<div class="container">
+      <div class="row row-cols-lg-5">
+            <app-album-card *ngFor="let imageInfo of imagesInfo" [albumData]="imageInfo"> </app-album-card>
+      </div>
       <div *ngIf="this.isLoggedIn" class="d-flex flex-column min-vh-100 justify-content-center align-items-center">
-            
-            <h6>{{ 'home.welcome' | translate }} {{ this.userProfile?.display_name }}. {{ 'home.startJourney' | translate }}</h6>
+            <h6>{{ 'home.welcome' | translate }} {{ this.userProfile?.display_name }}. {{ 'home.startJourney' |
+                  translate }}</h6>
             <button (click)="getTop50Tracks()" class="btn btn-success">{{ 'home.startJourneyBtn' | translate }}</button>
       </div>
 </div>

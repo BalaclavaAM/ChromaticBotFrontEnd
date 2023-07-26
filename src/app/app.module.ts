@@ -13,6 +13,7 @@ import { AboutBotComponent } from './pages/about-bot/about-bot.component';
 import { OAuthModule } from 'angular-oauth2-oidc';
 import { CallbackComponent } from './pages/callback/callback.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AlbumCardComponent } from './ui-components/album-card/album-card.component';
 
 export function createTranslateLoader(http: HttpClient){
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -24,7 +25,8 @@ export function createTranslateLoader(http: HttpClient){
     NavBarComponent,
     AboutBotComponent,
     HomeComponent,
-    CallbackComponent
+    CallbackComponent,
+    AlbumCardComponent
   ],
   imports: [
     BrowserModule,

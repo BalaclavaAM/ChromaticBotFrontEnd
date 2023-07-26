@@ -1,9 +1,11 @@
 export interface SpotifyTopInfo {
-    album:    string;
-    image:    string;
-    colors:   Array<number[]>;
-    dominant: number[];
-    songs?:   Song[];
+    album:        string;
+    albumSmallTitle?: string;
+    image:        string;
+    colors:       Array<number[]>;
+    dominant:     number[];
+    colorfulness: number;
+    songs:        Song[];
 }
 
 export interface Song {

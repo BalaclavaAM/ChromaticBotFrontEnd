@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-dark">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">{{ 'title' | translate }}</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
@@ -15,10 +15,10 @@
             }}</a>
         </li>
         <div ngbDropdown class="d-inline-block">
-          <li class="nav-link btn-group dropdown" id="dropdownMenu1" ngbDropdownToggle>Language</li>
-          <div ngbDropdownMenu aria-labelledby="dropdownMenu1">
-            <a class="dropdown-item" (click)="switchLanguage('es')">{{ 'navBar.languages.spanish' | translate }}</a>
-            <a class="dropdown-item" (click)="switchLanguage('en')">{{ 'navBar.languages.english' | translate }}</a>
+          <li class="nav-link btn-group dropdown bg-dark" id="dropdownMenu1" ngbDropdownToggle>Language</li>
+          <div ngbDropdownMenu aria-labelledby="dropdownMenu1" class="bg-dark">
+            <a class="dropdown-item text-white" (click)="switchLanguage('es')">{{ 'navBar.languages.spanish' | translate }}</a>
+            <a class="dropdown-item text-white" (click)="switchLanguage('en')">{{ 'navBar.languages.english' | translate }}</a>
           </div>
         </div>
       </ul>
@@ -30,8 +30,8 @@
             <img [src]="userProfile?.images?.[0]?.url" alt="User Photo" class="user-photo mr-2" width="32" height="32">
             {{ userProfile?.display_name }}
           </a>
-          <div ngbDropdownMenu aria-labelledby="dropdownMenu2">
-            <a class="dropdown-item" (click)="logout()">{{ 'navBar.logout' | translate }}</a>
+          <div ngbDropdownMenu aria-labelledby="dropdownMenu2" class="bg-dark">
+            <a class="dropdown-item text-white" (click)="logout()">{{ 'navBar.logout' | translate }}</a>
           </div>
         </div>
       </div>
