@@ -1,5 +1,9 @@
 <div class="album-card"  [@cardFlip]="state" (click)="cardClicked()">
     <div class="face back" *ngIf="state === 'default'">
+        <span class="position-absolute fs-5 top-0 start-100 translate-middle badge rounded-pill bg-success" style="z-index: 1000;">
+            {{this.albumData?.songs?.length}}
+            <span class="visually-hidden">Items</span>
+          </span>
         <div class="album-art-container">
             <img class="album-image" (click)="clickDisplayData()" [src]="albumData?.image" [alt]="albumData?.album"
                 height="150" width="150">

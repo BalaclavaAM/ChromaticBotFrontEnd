@@ -14,6 +14,7 @@ import { OAuthModule } from 'angular-oauth2-oidc';
 import { CallbackComponent } from './pages/callback/callback.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AlbumCardComponent } from './ui-components/album-card/album-card.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 export function createTranslateLoader(http: HttpClient){
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -41,7 +42,9 @@ export function createTranslateLoader(http: HttpClient){
       }
     }),
     OAuthModule.forRoot(),
-    NgbModule
+    NgbModule,
+    ReactiveFormsModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

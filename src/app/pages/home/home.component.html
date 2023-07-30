@@ -1,14 +1,48 @@
-<div *ngIf="!this.isLoggedIn" class="d-flex flex-column min-vh-100 justify-content-center align-items-center">
+<div *ngIf="!this.isLoggedIn" class="d-flex flex-column justify-content-center align-items-center text-center">
       <h6>{{ 'home.loginDescription' | translate }}</h6>
       <button class="btn btn-success" (click)="login()">{{ 'home.loginButton' | translate }}</button>
 </div>
 <div class="container">
-      <div class="row row-cols-lg-5">
-            <app-album-card *ngFor="let imageInfo of imagesInfo" [albumData]="imageInfo"> </app-album-card>
-      </div>
-      <div *ngIf="this.isLoggedIn" class="d-flex flex-column min-vh-100 justify-content-center align-items-center">
-            <h6>{{ 'home.welcome' | translate }} {{ this.userProfile?.display_name }}. {{ 'home.startJourney' |
+      <div *ngIf="this.isLoggedIn" class="d-flex flex-column justify-content-center align-items-center text-center">
+            <h6 class="p-4">{{ 'home.welcome' | translate }} {{ this.userProfile?.display_name }}. {{
+                  'home.startJourney' |
                   translate }}</h6>
+            <form [formGroup]="formGroup">
+                  <div class="btn-group text-center p-3" role="group" aria-label="Tiempo de revisión">
+                        <input type="radio" class="btn-check" formControlName="tiempoRevision" id="btnradio1"
+                              value="1m">
+                        <label class="btn btn-outline-success" for="btnradio1">{{'home.radioButtons.1month' | translate
+                              }}</label>
+
+                        <input type="radio" class="btn-check" formControlName="tiempoRevision" id="btnradio2"
+                              value="6m">
+                        <label class="btn btn-outline-success" for="btnradio2">{{'home.radioButtons.6months' | translate
+                              }}</label>
+
+                        <input type="radio" class="btn-check" formControlName="tiempoRevision" id="btnradio3" value="a">
+                        <label class="btn btn-outline-success" for="btnradio3">{{'home.radioButtons.allTime' | translate
+                              }}</label>
+                  </div>
+
+                  <div class="container text-center p-3">
+                        <label for="rangeQuantity" class="form-label">{{'home.quantityOfSongs' | translate }}
+                              {{formGroup.get('cantidadCanciones')?.value}}</label>
+                        <input type="range" class="form-range" min="1" max="50" step="1"
+                              formControlName="cantidadCanciones">
+                  </div>
+            </form>
             <button (click)="getTop50Tracks()" class="btn btn-success">{{ 'home.startJourneyBtn' | translate }}</button>
       </div>
+      <div class="container-fluid">
+            <div class="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-4 gy-4">
+              <ng-container *ngFor="let imageInfo of imagesInfo">
+                <div class="col d-flex justify-content-center">
+                  <app-album-card [albumData]="imageInfo"></app-album-card>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+          
+
+
 </div>

@@ -14,8 +14,13 @@ export class AppComponent {
 
   constructor (public translate: TranslateService, private oauthService: OAuthService,
     private userInfoService: UserInfoService, private spotifyService: SpotifyService){
+      //load lenguage from local storage
+    const lang = localStorage.getItem('lang');
     translate.addLangs(['en', 'es']);
     translate.setDefaultLang('en');
+    if (lang !== null) {
+      translate.setDefaultLang(lang);
+    }
     this.oauthService.configure(authCodeFlowConfig);
     this.oauthService.setupAutomaticSilentRefresh();
     if (this.oauthService.hasValidAccessToken()) {

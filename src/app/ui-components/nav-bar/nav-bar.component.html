@@ -1,11 +1,11 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-dark">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">{{ 'title' | translate }}</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" (click)="isMenuCollapsed = !isMenuCollapsed">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
+    <div class="collapse navbar-collapse" [ngbCollapse]="isMenuCollapsed" id="navbarNav">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item active">
           <a class="nav-link" routerLink="/home" routerLinkActive="nav-link--active">{{ 'navBar.home' | translate }}</a>
@@ -15,7 +15,7 @@
             }}</a>
         </li>
         <div ngbDropdown class="d-inline-block">
-          <li class="nav-link btn-group dropdown bg-dark" id="dropdownMenu1" ngbDropdownToggle>Language</li>
+          <li class="nav-link btn-group dropdown bg-dark" id="dropdownMenu1" ngbDropdownToggle>{{'navBar.setLanguage' | translate}}</li>
           <div ngbDropdownMenu aria-labelledby="dropdownMenu1" class="bg-dark">
             <a class="dropdown-item text-white" (click)="switchLanguage('es')">{{ 'navBar.languages.spanish' | translate }}</a>
             <a class="dropdown-item text-white" (click)="switchLanguage('en')">{{ 'navBar.languages.english' | translate }}</a>

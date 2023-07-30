@@ -16,7 +16,13 @@
     "logoutButton": "Logout",
     "welcome": "Welcome, ",
     "startJourney": "Lets start your journey!",
-    "startJourneyBtn": "Start"
+    "startJourneyBtn": "Start",
+    "radioButtons": {
+      "1month": "1 month",
+      "6months": "6 months",
+      "allTime": "All time"
+    },
+    "quantityOfSongs": "Quantity of songs"
   },
   "mainPage":{
     "description": "ChromaticBot is an Spotify bot to retrieve your albums ordered with the chromatic pattern."

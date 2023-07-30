@@ -46,7 +46,7 @@ export class SpotifyService {
     this.userInfoService.onLoggedInChanged.next(false);
   }
 
-  public getTop50Tracks(): Observable<any> {
-    return this.httpClient.post('http://127.0.0.1:5000/get_albums_by_chromaticity', { token: this.oauth2Client.getAccessToken() });
+  public getTop50Tracks(timeRevision: string, quantitySongs: string): Observable<any> {
+    return this.httpClient.post('http://127.0.0.1:5000/get_albums_by_chromaticity', { token: this.oauth2Client.getAccessToken(), timeRevision, quantitySongs });
   }
 }

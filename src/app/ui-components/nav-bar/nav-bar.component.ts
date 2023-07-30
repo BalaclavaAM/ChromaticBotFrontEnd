@@ -12,6 +12,7 @@ import { UserInfoService } from 'src/app/services/user-info.service';
 export class NavBarComponent implements OnInit {
   userProfile: SpotifyLoginInfo | undefined = this.userInfoService.userInfo;
   isLoggedIn: boolean = this.userInfoService.loggedIn;
+  isMenuCollapsed = true;
   constructor(public translate: TranslateService, private spotifyService: SpotifyService, private userInfoService: UserInfoService) { }
 
   ngOnInit(): void {
@@ -29,6 +30,7 @@ export class NavBarComponent implements OnInit {
   }
 
   public switchLanguage(lang: string){
+    localStorage.setItem('lang', lang);
     this.translate.use(lang);
   }
   logout(): void {
