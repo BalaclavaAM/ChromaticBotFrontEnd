@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { SpotifyService } from 'src/app/services/spotify.service';
@@ -8,7 +9,8 @@ import { UserInfoService } from 'src/app/services/user-info.service';
     selector: 'app-callback',
     templateUrl: './callback.component.html',
     styleUrls: ['./callback.component.sass'],
-    standalone: false
+    standalone: true,
+    imports: [CommonModule]
 })
 export class CallbackComponent implements OnInit {
   constructor(

@@ -1,16 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { TranslateService } from '@ngx-translate/core';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SpotifyLoginInfo } from 'src/app/models/spotifyLoginInfo';
 import { SpotifyTopInfo } from 'src/app/models/spotifyTopInfo';
 import { SpotifyService } from 'src/app/services/spotify.service';
 import { UserInfoService } from 'src/app/services/user-info.service';
+import { AlbumCardComponent } from 'src/app/ui-components/album-card/album-card.component';
 
 @Component({
     selector: 'app-home',
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.sass'],
-    standalone: false
+    standalone: true,
+    imports: [CommonModule, ReactiveFormsModule, TranslateModule, NgbModule, AlbumCardComponent]
 })
 export class HomeComponent implements OnInit {
   userProfile: SpotifyLoginInfo | undefined = this.userInfoService.userInfo;

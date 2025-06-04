@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+import { CommonModule } from '@angular/common';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { SpotifyLoginInfo } from 'src/app/models/spotifyLoginInfo';
 import { SpotifyService } from 'src/app/services/spotify.service';
 import { UserInfoService } from 'src/app/services/user-info.service';
@@ -8,7 +10,8 @@ import { UserInfoService } from 'src/app/services/user-info.service';
     selector: 'app-nav-bar',
     templateUrl: './nav-bar.component.html',
     styleUrls: ['./nav-bar.component.sass'],
-    standalone: false
+    standalone: true,
+    imports: [CommonModule, NgbModule, TranslateModule]
 })
 export class NavBarComponent implements OnInit {
   userProfile: SpotifyLoginInfo | undefined = this.userInfoService.userInfo;

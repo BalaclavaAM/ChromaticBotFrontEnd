@@ -1,5 +1,7 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, Input, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SpotifyTopInfo } from 'src/app/models/spotifyTopInfo';
 
 @Component({
@@ -18,7 +20,8 @@ import { SpotifyTopInfo } from 'src/app/models/spotifyTopInfo';
             transition("flipped => default", [animate("470ms")]),
         ])
     ],
-    standalone: false
+    standalone: true,
+    imports: [CommonModule, NgbModule]
 })
 export class AlbumCardComponent implements OnInit {
   displayData: boolean = false;

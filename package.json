@@ -22,7 +22,7 @@
     "@angular/router": "^19.2.14",
     "@fontsource/roboto": "^4.5.8",
     "@fontsource/roboto-mono": "^4.5.10",
-    "@ng-bootstrap/ng-bootstrap": "^17.0.1",
+    "@ng-bootstrap/ng-bootstrap": "^18.0.0",
     "@ngx-translate/core": "^16.0.4",
     "@ngx-translate/http-loader": "^7.0.0",
     "@popperjs/core": "^2.11.6",

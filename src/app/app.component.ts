@@ -1,15 +1,18 @@
 import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { authCodeFlowConfig } from 'src/app/services/oauthconfig';
 import { UserInfoService } from './services/user-info.service';
 import { SpotifyService } from './services/spotify.service';
+import { NavBarComponent } from './ui-components/nav-bar/nav-bar.component';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.sass'],
-    standalone: false
+    standalone: true,
+    imports: [RouterOutlet, NavBarComponent]
 })
 export class AppComponent {
 
