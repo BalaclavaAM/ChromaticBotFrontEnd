@@ -5,9 +5,10 @@ import { SpotifyService } from 'src/app/services/spotify.service';
 import { UserInfoService } from 'src/app/services/user-info.service';
 
 @Component({
-  selector: 'app-callback',
-  templateUrl: './callback.component.html',
-  styleUrls: ['./callback.component.sass'],
+    selector: 'app-callback',
+    templateUrl: './callback.component.html',
+    styleUrls: ['./callback.component.sass'],
+    standalone: false
 })
 export class CallbackComponent implements OnInit {
   constructor(

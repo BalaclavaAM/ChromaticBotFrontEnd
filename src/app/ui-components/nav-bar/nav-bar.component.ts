@@ -5,9 +5,10 @@ import { SpotifyService } from 'src/app/services/spotify.service';
 import { UserInfoService } from 'src/app/services/user-info.service';
 
 @Component({
-  selector: 'app-nav-bar',
-  templateUrl: './nav-bar.component.html',
-  styleUrls: ['./nav-bar.component.sass']
+    selector: 'app-nav-bar',
+    templateUrl: './nav-bar.component.html',
+    styleUrls: ['./nav-bar.component.sass'],
+    standalone: false
 })
 export class NavBarComponent implements OnInit {
   userProfile: SpotifyLoginInfo | undefined = this.userInfoService.userInfo;

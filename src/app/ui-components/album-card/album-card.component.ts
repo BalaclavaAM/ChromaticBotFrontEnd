@@ -3,26 +3,22 @@ import { Component, Input, OnInit } from '@angular/core';
 import { SpotifyTopInfo } from 'src/app/models/spotifyTopInfo';
 
 @Component({
-  selector: 'app-album-card',
-  templateUrl: './album-card.component.html',
-  styleUrls: ['./album-card.component.sass'],
-  animations: [
-    trigger("cardFlip", [
-      state(
-        "default",
-        style({
-          transform: "none"
-        })
-      ),
-      state(
-        "flipped",
-        style({
-          transform: "rotateY(180deg)"
-        })
-      ),
-      transition("default => flipped", [animate("470ms")]),
-      transition("flipped => default", [animate("470ms")]),
-    ])]
+    selector: 'app-album-card',
+    templateUrl: './album-card.component.html',
+    styleUrls: ['./album-card.component.sass'],
+    animations: [
+        trigger("cardFlip", [
+            state("default", style({
+                transform: "none"
+            })),
+            state("flipped", style({
+                transform: "rotateY(180deg)"
+            })),
+            transition("default => flipped", [animate("470ms")]),
+            transition("flipped => default", [animate("470ms")]),
+        ])
+    ],
+    standalone: false
 })
 export class AlbumCardComponent implements OnInit {
   displayData: boolean = false;
