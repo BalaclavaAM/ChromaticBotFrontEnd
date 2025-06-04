@@ -33,7 +33,6 @@ export function createTranslateLoader(http: HttpClient) {
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    HttpClientModule,
     AppRoutingModule,
     ReactiveFormsModule,
     FormsModule,
