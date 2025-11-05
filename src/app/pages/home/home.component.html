@@ -67,6 +67,22 @@
               </select>
             </div>
           </div>
+
+          <!-- Poster Background Select -->
+          <div class="row justify-content-center mb-4" *ngIf="imagesInfo.length > 0">
+            <div class="col-12 col-md-6 col-lg-4">
+              <label class="form-label">{{ 'home.posterBackground' | translate }}</label>
+              <select class="form-select" formControlName="posterBackground">
+                <option value="gradient-dark">{{ 'home.posterBackgrounds.gradientDark' | translate }}</option>
+                <option value="gradient-spotify">{{ 'home.posterBackgrounds.gradientSpotify' | translate }}</option>
+                <option value="gradient-sunset">{{ 'home.posterBackgrounds.gradientSunset' | translate }}</option>
+                <option value="gradient-ocean">{{ 'home.posterBackgrounds.gradientOcean' | translate }}</option>
+                <option value="gradient-purple">{{ 'home.posterBackgrounds.gradientPurple' | translate }}</option>
+                <option value="solid-black">{{ 'home.posterBackgrounds.solidBlack' | translate }}</option>
+                <option value="solid-white">{{ 'home.posterBackgrounds.solidWhite' | translate }}</option>
+              </select>
+            </div>
+          </div>
         </form>
 
         <!-- Start Button -->

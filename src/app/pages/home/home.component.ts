@@ -28,7 +28,8 @@ export class HomeComponent implements OnInit {
   formGroup = new FormGroup({
     'tiempoRevision': new FormControl('6m'),
     'cantidadCanciones': new FormControl('10'),
-    'sortMode': new FormControl('hue')
+    'sortMode': new FormControl('hue'),
+    'posterBackground': new FormControl('gradient-dark')
   })
   constructor(
     public translate: TranslateService,
@@ -46,7 +47,7 @@ export class HomeComponent implements OnInit {
       this.isLoggedIn = loggedIn;
     });
 
-    // Re-fetch automático cuando cambia cantidad de canciones o modo de ordenamiento
+    // Re-fetch automático cuando cambia cantidad de canciones, modo de ordenamiento o temporalidad
     this.formGroup.get('cantidadCanciones')?.valueChanges.subscribe(() => {
       if (this.imagesInfo.length > 0) {
         this.getTop50Tracks();
@@ -54,6 +55,12 @@ export class HomeComponent implements OnInit {
     });
 
     this.formGroup.get('sortMode')?.valueChanges.subscribe(() => {
+      if (this.imagesInfo.length > 0) {
+        this.getTop50Tracks();
+      }
+    });
+
+    this.formGroup.get('tiempoRevision')?.valueChanges.subscribe(() => {
       if (this.imagesInfo.length > 0) {
         this.getTop50Tracks();
       }
@@ -100,10 +107,12 @@ export class HomeComponent implements OnInit {
 
     try {
       const timeRange = this.getTimeRangeLabel();
+      const backgroundStyle = this.formGroup.get('posterBackground')?.value ?? 'gradient-dark';
       const posterUrl = await this.posterGenerator.generatePoster(
         this.imagesInfo,
         this.userProfile?.display_name ?? 'Usuario',
-        timeRange
+        timeRange,
+        backgroundStyle
       );
 
       this.openPosterModal(posterUrl);

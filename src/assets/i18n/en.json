@@ -30,6 +30,16 @@
       "saturation": "Saturation (Vibrant → Gray)",
       "brightness": "Brightness (Light → Dark)"
     },
+    "posterBackground": "Poster background:",
+    "posterBackgrounds": {
+      "gradientDark": "Dark (Default)",
+      "gradientSpotify": "Spotify Green",
+      "gradientSunset": "Sunset",
+      "gradientOcean": "Ocean",
+      "gradientPurple": "Purple",
+      "solidBlack": "Solid Black",
+      "solidWhite": "Solid White"
+    },
     "generatePoster": "Generate Poster",
     "generatingPoster": "Generating poster..."
   },

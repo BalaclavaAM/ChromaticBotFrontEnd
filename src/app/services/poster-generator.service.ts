@@ -10,19 +10,20 @@ export class PosterGeneratorService {
   private readonly POSTER_HEIGHT = 1920;
 
   // Layout constants
-  private readonly HEADER_HEIGHT = 180;
+  private readonly HEADER_HEIGHT = 140;
   private readonly ALBUM_SIZE = 240;
   private readonly ALBUMS_PER_ROW = 4;
-  private readonly ALBUM_MARGIN = 12;
-  private readonly COLOR_BAR_HEIGHT = 24;
-  private readonly FOOTER_HEIGHT = 80;
+  private readonly ALBUM_MARGIN = 10;
+  private readonly COLOR_BAR_HEIGHT = 20;
+  private readonly FOOTER_HEIGHT = 60;
 
   constructor() { }
 
   async generatePoster(
     albums: SpotifyTopInfo[],
     userName: string,
-    timeRange: string
+    timeRange: string,
+    backgroundStyle: string = 'gradient-dark'
   ): Promise<string> {
     // Crear canvas offscreen
     const canvas = document.createElement('canvas');
@@ -34,18 +35,17 @@ export class PosterGeneratorService {
       throw new Error('No se pudo crear el contexto del canvas');
     }
 
-    // Dibujar fondo con degradado
-    const gradient = ctx.createLinearGradient(0, 0, 0, this.POSTER_HEIGHT);
-    gradient.addColorStop(0, '#1a1a2e');
-    gradient.addColorStop(1, '#16213e');
-    ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, this.POSTER_WIDTH, this.POSTER_HEIGHT);
+    // Dibujar fondo según el estilo seleccionado
+    this.drawBackground(ctx, backgroundStyle);
+
+    // Determinar si el fondo es claro u oscuro para ajustar colores de texto
+    const isLightBackground = backgroundStyle === 'solid-white';
 
     // Dibujar header
-    this.drawHeader(ctx, userName, timeRange);
+    this.drawHeader(ctx, userName, timeRange, isLightBackground);
 
-    // Tomar solo los primeros 16 álbumes (4x4 grid)
-    const albumsToShow = albums.slice(0, 16);
+    // Calcular cuántos álbumes caben (4x6 = 24 álbumes)
+    const albumsToShow = albums.slice(0, 24);
 
     // Cargar todas las imágenes en paralelo
     const loadedImages = await this.loadAllImages(albumsToShow);
@@ -54,28 +54,85 @@ export class PosterGeneratorService {
     this.drawAlbumsGrid(ctx, albumsToShow, loadedImages);
 
     // Dibujar footer
-    this.drawFooter(ctx);
+    this.drawFooter(ctx, isLightBackground);
 
     // Retornar como base64
     return canvas.toDataURL('image/png');
   }
 
-  private drawHeader(ctx: CanvasRenderingContext2D, userName: string, timeRange: string): void {
+  private drawBackground(ctx: CanvasRenderingContext2D, backgroundStyle: string): void {
+    switch (backgroundStyle) {
+      case 'gradient-dark':
+        const gradientDark = ctx.createLinearGradient(0, 0, 0, this.POSTER_HEIGHT);
+        gradientDark.addColorStop(0, '#1a1a2e');
+        gradientDark.addColorStop(1, '#16213e');
+        ctx.fillStyle = gradientDark;
+        break;
+
+      case 'gradient-spotify':
+        const gradientSpotify = ctx.createLinearGradient(0, 0, 0, this.POSTER_HEIGHT);
+        gradientSpotify.addColorStop(0, '#1DB954');
+        gradientSpotify.addColorStop(1, '#191414');
+        ctx.fillStyle = gradientSpotify;
+        break;
+
+      case 'gradient-sunset':
+        const gradientSunset = ctx.createLinearGradient(0, 0, 0, this.POSTER_HEIGHT);
+        gradientSunset.addColorStop(0, '#FF6B6B');
+        gradientSunset.addColorStop(0.5, '#FFD93D');
+        gradientSunset.addColorStop(1, '#6BCF7F');
+        ctx.fillStyle = gradientSunset;
+        break;
+
+      case 'gradient-ocean':
+        const gradientOcean = ctx.createLinearGradient(0, 0, 0, this.POSTER_HEIGHT);
+        gradientOcean.addColorStop(0, '#667eea');
+        gradientOcean.addColorStop(1, '#764ba2');
+        ctx.fillStyle = gradientOcean;
+        break;
+
+      case 'gradient-purple':
+        const gradientPurple = ctx.createLinearGradient(0, 0, 0, this.POSTER_HEIGHT);
+        gradientPurple.addColorStop(0, '#8E2DE2');
+        gradientPurple.addColorStop(1, '#4A00E0');
+        ctx.fillStyle = gradientPurple;
+        break;
+
+      case 'solid-black':
+        ctx.fillStyle = '#000000';
+        break;
+
+      case 'solid-white':
+        ctx.fillStyle = '#FFFFFF';
+        break;
+
+      default:
+        // Fallback a gradient-dark
+        const gradientDefault = ctx.createLinearGradient(0, 0, 0, this.POSTER_HEIGHT);
+        gradientDefault.addColorStop(0, '#1a1a2e');
+        gradientDefault.addColorStop(1, '#16213e');
+        ctx.fillStyle = gradientDefault;
+    }
+
+    ctx.fillRect(0, 0, this.POSTER_WIDTH, this.POSTER_HEIGHT);
+  }
+
+  private drawHeader(ctx: CanvasRenderingContext2D, userName: string, timeRange: string, isLightBackground: boolean = false): void {
     // Título
-    ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 48px Arial, sans-serif';
+    ctx.fillStyle = isLightBackground ? '#000000' : '#ffffff';
+    ctx.font = 'bold 42px Arial, sans-serif';
     ctx.textAlign = 'center';
-    ctx.fillText('CHROMATIC PALETTE', this.POSTER_WIDTH / 2, 70);
+    ctx.fillText('CHROMATIC PALETTE', this.POSTER_WIDTH / 2, 50);
 
     // Usuario
-    ctx.font = '32px Arial, sans-serif';
+    ctx.font = '28px Arial, sans-serif';
     ctx.fillStyle = '#1DB954';
-    ctx.fillText(`@${userName}`, this.POSTER_WIDTH / 2, 115);
+    ctx.fillText(`@${userName}`, this.POSTER_WIDTH / 2, 90);
 
     // Rango de tiempo
-    ctx.font = '24px Arial, sans-serif';
-    ctx.fillStyle = '#999999';
-    ctx.fillText(timeRange, this.POSTER_WIDTH / 2, 150);
+    ctx.font = '20px Arial, sans-serif';
+    ctx.fillStyle = isLightBackground ? '#666666' : '#999999';
+    ctx.fillText(timeRange, this.POSTER_WIDTH / 2, 120);
   }
 
   private async loadAllImages(albums: SpotifyTopInfo[]): Promise<HTMLImageElement[]> {
@@ -149,11 +206,11 @@ export class PosterGeneratorService {
     });
   }
 
-  private drawFooter(ctx: CanvasRenderingContext2D): void {
-    const footerY = this.POSTER_HEIGHT - this.FOOTER_HEIGHT + 10;
+  private drawFooter(ctx: CanvasRenderingContext2D, isLightBackground: boolean = false): void {
+    const footerY = this.POSTER_HEIGHT - this.FOOTER_HEIGHT + 5;
 
     // Línea decorativa
-    ctx.strokeStyle = '#333333';
+    ctx.strokeStyle = isLightBackground ? '#cccccc' : '#333333';
     ctx.lineWidth = 1;
     ctx.beginPath();
     ctx.moveTo(150, footerY);
@@ -161,14 +218,14 @@ export class PosterGeneratorService {
     ctx.stroke();
 
     // Texto del footer
-    ctx.fillStyle = '#999999';
-    ctx.font = '20px Arial, sans-serif';
+    ctx.fillStyle = isLightBackground ? '#666666' : '#999999';
+    ctx.font = '18px Arial, sans-serif';
     ctx.textAlign = 'center';
-    ctx.fillText('ChromaticBot', this.POSTER_WIDTH / 2, footerY + 35);
+    ctx.fillText('ChromaticBot', this.POSTER_WIDTH / 2, footerY + 28);
 
     // Powered by Spotify
-    ctx.font = '16px Arial, sans-serif';
-    ctx.fillStyle = '#666666';
-    ctx.fillText('Powered by Spotify', this.POSTER_WIDTH / 2, footerY + 60);
+    ctx.font = '14px Arial, sans-serif';
+    ctx.fillStyle = isLightBackground ? '#999999' : '#666666';
+    ctx.fillText('Powered by Spotify', this.POSTER_WIDTH / 2, footerY + 48);
   }
 }

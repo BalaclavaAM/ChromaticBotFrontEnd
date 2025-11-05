@@ -30,6 +30,16 @@
       "saturation": "Saturación (Vibrante → Gris)",
       "brightness": "Brillo (Claro → Oscuro)"
     },
+    "posterBackground": "Fondo del póster:",
+    "posterBackgrounds": {
+      "gradientDark": "Oscuro (Predeterminado)",
+      "gradientSpotify": "Spotify Verde",
+      "gradientSunset": "Atardecer",
+      "gradientOcean": "Océano",
+      "gradientPurple": "Púrpura",
+      "solidBlack": "Negro Sólido",
+      "solidWhite": "Blanco Sólido"
+    },
     "generatePoster": "Generar Póster",
     "generatingPoster": "Generando póster..."
   },
