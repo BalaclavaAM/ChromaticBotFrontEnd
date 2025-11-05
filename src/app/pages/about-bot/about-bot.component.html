@@ -1,10 +1,99 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>About</title>
-</head>
-<body>
-  <h1>About</h1>
-  <p>This is the about page</p>
-</body>
-</html>
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <h1 class="display-4 mb-4 text-center">{{ 'about.title' | translate }}</h1>
+
+      <section class="mb-5">
+        <h2 class="mb-3">{{ 'about.whatIs.title' | translate }}</h2>
+        <p class="lead">{{ 'about.whatIs.description' | translate }}</p>
+        <p>{{ 'about.whatIs.details' | translate }}</p>
+      </section>
+
+      <section class="mb-5">
+        <h2 class="mb-3">{{ 'about.howItWorks.title' | translate }}</h2>
+        <ol class="lead">
+          <li class="mb-2">{{ 'about.howItWorks.step1' | translate }}</li>
+          <li class="mb-2">{{ 'about.howItWorks.step2' | translate }}</li>
+          <li class="mb-2">{{ 'about.howItWorks.step3' | translate }}</li>
+          <li class="mb-2">{{ 'about.howItWorks.step4' | translate }}</li>
+          <li class="mb-2">{{ 'about.howItWorks.step5' | translate }}</li>
+        </ol>
+      </section>
+
+      <section class="mb-5">
+        <h2 class="mb-3">{{ 'about.features.title' | translate }}</h2>
+        <div class="row g-4">
+          <div class="col-md-6">
+            <div class="card h-100">
+              <div class="card-body">
+                <h5 class="card-title">{{ 'about.features.sorting.title' | translate }}</h5>
+                <p class="card-text">{{ 'about.features.sorting.description' | translate }}</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card h-100">
+              <div class="card-body">
+                <h5 class="card-title">{{ 'about.features.poster.title' | translate }}</h5>
+                <p class="card-text">{{ 'about.features.poster.description' | translate }}</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card h-100">
+              <div class="card-body">
+                <h5 class="card-title">{{ 'about.features.timeRange.title' | translate }}</h5>
+                <p class="card-text">{{ 'about.features.timeRange.description' | translate }}</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card h-100">
+              <div class="card-body">
+                <h5 class="card-title">{{ 'about.features.privacy.title' | translate }}</h5>
+                <p class="card-text">{{ 'about.features.privacy.description' | translate }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="mb-5">
+        <h2 class="mb-3">{{ 'about.technology.title' | translate }}</h2>
+        <div class="row">
+          <div class="col-md-6">
+            <h4>Frontend</h4>
+            <ul>
+              <li>Angular 19</li>
+              <li>TypeScript</li>
+              <li>Bootstrap 5</li>
+              <li>HTML5 Canvas API</li>
+              <li>Web Share API</li>
+            </ul>
+          </div>
+          <div class="col-md-6">
+            <h4>Backend</h4>
+            <ul>
+              <li>FastAPI (Python 3.12)</li>
+              <li>ColorThief</li>
+              <li>Pillow (PIL)</li>
+              <li>Spotify Web API</li>
+              <li>MongoDB (opcional)</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="mb-5">
+        <h2 class="mb-3">{{ 'about.credits.title' | translate }}</h2>
+        <p>{{ 'about.credits.spotify' | translate }}</p>
+        <p>{{ 'about.credits.libraries' | translate }}</p>
+        <p class="text-muted">{{ 'about.credits.developer' | translate }}</p>
+      </section>
+
+      <div class="text-center">
+        <a routerLink="/" class="btn btn-success btn-lg">{{ 'about.backButton' | translate }}</a>
+      </div>
+    </div>
+  </div>
+</div>

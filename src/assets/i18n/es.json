@@ -17,12 +17,74 @@
     "welcome": "Bienvenido, ",
     "startJourney": "Vamos a comenzar tu viaje!",
     "startJourneyBtn": "Comenzar",
+    "loading": "Cargando...",
     "radioButtons": {
       "1month": "1 Mes",
       "6months": "6 Meses",
       "allTime": "Toda la vida"
     },
-    "quantityOfSongs": "Cantidad de canciones"
+    "quantityOfSongs": "Cantidad de canciones",
+    "sortMode": "Ordenar por:",
+    "sortModes": {
+      "hue": "Matiz (Arcoíris)",
+      "saturation": "Saturación (Vibrante → Gris)",
+      "brightness": "Brillo (Claro → Oscuro)"
+    },
+    "generatePoster": "Generar Póster",
+    "generatingPoster": "Generando póster..."
+  },
+  "poster": {
+    "title": "Tu Póster Cromático",
+    "download": "Descargar",
+    "share": "Compartir",
+    "close": "Cerrar",
+    "noData": "No hay datos para generar el póster. Primero carga tus álbumes.",
+    "error": "Ocurrió un error al generar el póster. Intenta de nuevo."
+  },
+  "about": {
+    "title": "Acerca de ChromaticBot",
+    "whatIs": {
+      "title": "¿Qué es el Análisis Cromático?",
+      "description": "ChromaticBot es una aplicación innovadora que transforma tu música en una experiencia visual.",
+      "details": "Analizamos las portadas de tus álbumes más escuchados en Spotify, extrayendo paletas de colores y ordenándolas por diferentes criterios cromáticos para crear visualizaciones únicas."
+    },
+    "howItWorks": {
+      "title": "¿Cómo Funciona?",
+      "step1": "Inicia sesión con tu cuenta de Spotify de forma segura mediante OAuth2.",
+      "step2": "Selecciona el período de tiempo (1 mes, 6 meses o todo el tiempo) y la cantidad de canciones a analizar.",
+      "step3": "Elige el modo de ordenamiento: por matiz (arcoíris), saturación (vibrante a gris) o brillo (claro a oscuro).",
+      "step4": "Nuestro backend analiza las portadas usando ColorThief, extrayendo hasta 6 colores dominantes por álbum.",
+      "step5": "Genera un póster compartible localmente en tu navegador para compartir en redes sociales."
+    },
+    "features": {
+      "title": "Características",
+      "sorting": {
+        "title": "Ordenamiento Inteligente",
+        "description": "Ordena tus álbumes por matiz, saturación o brillo para descubrir patrones cromáticos en tu música."
+      },
+      "poster": {
+        "title": "Pósters Compartibles",
+        "description": "Genera imágenes estilo Receiptify para compartir tu paleta cromática en Instagram, Twitter y más."
+      },
+      "timeRange": {
+        "title": "Múltiples Períodos",
+        "description": "Analiza tus gustos musicales del último mes, 6 meses o de todo el tiempo."
+      },
+      "privacy": {
+        "title": "100% Privado",
+        "description": "Los pósters se generan localmente en tu navegador. Tus datos nunca se almacenan en servidores externos."
+      }
+    },
+    "technology": {
+      "title": "Tecnología"
+    },
+    "credits": {
+      "title": "Créditos",
+      "spotify": "Esta aplicación usa la API de Spotify para obtener tus canciones más escuchadas. Spotify es una marca registrada de Spotify AB.",
+      "libraries": "Construido con Angular, FastAPI, ColorThief y otras bibliotecas de código abierto.",
+      "developer": "Desarrollado con ❤️ por un entusiasta de la música y el color."
+    },
+    "backButton": "Volver al Inicio"
   },
   "mainPage":{
     "description": "ChromaticBot es un bot de Spotify para obtener tus álbumes ordenados con el patrón cromático."

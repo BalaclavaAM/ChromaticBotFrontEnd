@@ -5,6 +5,8 @@ export interface SpotifyTopInfo {
     colors:       Array<number[]>;
     dominant:     number[];
     colorfulness: number;
+    saturation:   number;
+    brightness:   number;
     songs:        Song[];
 }
 

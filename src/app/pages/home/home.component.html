@@ -1,48 +1,102 @@
-<div *ngIf="!this.isLoggedIn" class="d-flex flex-column justify-content-center align-items-center text-center">
-      <h6>{{ 'home.loginDescription' | translate }}</h6>
-      <button class="btn btn-success" (click)="login()">{{ 'home.loginButton' | translate }}</button>
+<!-- Login Section -->
+<div *ngIf="!this.isLoggedIn" class="container">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-8 col-lg-6 text-center py-5">
+      <h4 class="mb-4">{{ 'home.loginDescription' | translate }}</h4>
+      <button class="btn btn-success btn-lg" (click)="login()">
+        {{ 'home.loginButton' | translate }}
+      </button>
+    </div>
+  </div>
 </div>
-<div class="container">
-      <div *ngIf="this.isLoggedIn" class="d-flex flex-column justify-content-center align-items-center text-center">
-            <h6 class="p-4">{{ 'home.welcome' | translate }} {{ this.userProfile?.display_name }}. {{
-                  'home.startJourney' |
-                  translate }}</h6>
-            <form [formGroup]="formGroup">
-                  <div class="btn-group text-center p-3" role="group" aria-label="Tiempo de revisión">
-                        <input type="radio" class="btn-check" formControlName="tiempoRevision" id="btnradio1"
-                              value="1m">
-                        <label class="btn btn-outline-success" for="btnradio1">{{'home.radioButtons.1month' | translate
-                              }}</label>
 
-                        <input type="radio" class="btn-check" formControlName="tiempoRevision" id="btnradio2"
-                              value="6m">
-                        <label class="btn btn-outline-success" for="btnradio2">{{'home.radioButtons.6months' | translate
-                              }}</label>
+<!-- Main Content -->
+<div class="container-fluid" *ngIf="this.isLoggedIn">
+  <!-- Welcome & Controls -->
+  <div class="row justify-content-center">
+    <div class="col-12 col-lg-10 col-xl-8">
+      <div class="text-center py-4">
+        <h5 class="mb-4">
+          {{ 'home.welcome' | translate }} {{ this.userProfile?.display_name }}.
+          {{ 'home.startJourney' | translate }}
+        </h5>
 
-                        <input type="radio" class="btn-check" formControlName="tiempoRevision" id="btnradio3" value="a">
-                        <label class="btn btn-outline-success" for="btnradio3">{{'home.radioButtons.allTime' | translate
-                              }}</label>
-                  </div>
+        <form [formGroup]="formGroup" class="mb-4">
+          <!-- Time Range Buttons -->
+          <div class="mb-4">
+            <div class="btn-group" role="group">
+              <input type="radio" class="btn-check" formControlName="tiempoRevision"
+                     id="btnradio1" value="1m">
+              <label class="btn btn-outline-success" for="btnradio1">
+                {{ 'home.radioButtons.1month' | translate }}
+              </label>
 
-                  <div class="container text-center p-3">
-                        <label for="rangeQuantity" class="form-label">{{'home.quantityOfSongs' | translate }}
-                              {{formGroup.get('cantidadCanciones')?.value}}</label>
-                        <input type="range" class="form-range" min="1" max="50" step="1"
-                              formControlName="cantidadCanciones">
-                  </div>
-            </form>
-            <button (click)="getTop50Tracks()" class="btn btn-success">{{ 'home.startJourneyBtn' | translate }}</button>
-      </div>
-      <div class="container-fluid">
-            <div class="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-4 gy-4">
-              <ng-container *ngFor="let imageInfo of imagesInfo">
-                <div class="col d-flex justify-content-center">
-                  <app-album-card [albumData]="imageInfo"></app-album-card>
-                </div>
-              </ng-container>
+              <input type="radio" class="btn-check" formControlName="tiempoRevision"
+                     id="btnradio2" value="6m">
+              <label class="btn btn-outline-success" for="btnradio2">
+                {{ 'home.radioButtons.6months' | translate }}
+              </label>
+
+              <input type="radio" class="btn-check" formControlName="tiempoRevision"
+                     id="btnradio3" value="a">
+              <label class="btn btn-outline-success" for="btnradio3">
+                {{ 'home.radioButtons.allTime' | translate }}
+              </label>
             </div>
           </div>
-          
 
+          <!-- Quantity Slider -->
+          <div class="row justify-content-center mb-4">
+            <div class="col-12 col-md-8 col-lg-6">
+              <label for="rangeQuantity" class="form-label">
+                {{ 'home.quantityOfSongs' | translate }} {{ formGroup.get('cantidadCanciones')?.value }}
+              </label>
+              <input type="range" class="form-range" min="1" max="50" step="1"
+                     id="rangeQuantity" formControlName="cantidadCanciones">
+            </div>
+          </div>
 
+          <!-- Sort Mode Select -->
+          <div class="row justify-content-center mb-4">
+            <div class="col-12 col-md-6 col-lg-4">
+              <label class="form-label">{{ 'home.sortMode' | translate }}</label>
+              <select class="form-select" formControlName="sortMode">
+                <option value="hue">{{ 'home.sortModes.hue' | translate }}</option>
+                <option value="saturation">{{ 'home.sortModes.saturation' | translate }}</option>
+                <option value="brightness">{{ 'home.sortModes.brightness' | translate }}</option>
+              </select>
+            </div>
+          </div>
+        </form>
+
+        <!-- Start Button -->
+        <button (click)="getTop50Tracks()" class="btn btn-success btn-lg" [disabled]="isLoading">
+          <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2"></span>
+          {{ isLoading ? ('home.loading' | translate) : ('home.startJourneyBtn' | translate) }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Generate Poster Button -->
+  <div class="row justify-content-center" *ngIf="imagesInfo.length > 0">
+    <div class="col-12 text-center my-4">
+      <button (click)="generatePoster()" class="btn btn-primary btn-lg" [disabled]="isGeneratingPoster">
+        <span *ngIf="isGeneratingPoster" class="spinner-border spinner-border-sm me-2"></span>
+        <i *ngIf="!isGeneratingPoster" class="bi bi-image me-2"></i>
+        {{ isGeneratingPoster ? ('home.generatingPoster' | translate) : ('home.generatePoster' | translate) }}
+      </button>
+    </div>
+  </div>
+
+  <!-- Albums Grid -->
+  <div class="row justify-content-center pb-5" *ngIf="imagesInfo.length > 0">
+    <div class="col-12 col-xxl-10">
+      <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 row-cols-xl-6 g-3 g-md-4">
+        <div class="col" *ngFor="let imageInfo of imagesInfo">
+          <app-album-card [albumData]="imageInfo"></app-album-card>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

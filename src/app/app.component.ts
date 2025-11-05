@@ -18,12 +18,22 @@ export class AppComponent {
 
   constructor (public translate: TranslateService, private oauthService: OAuthService,
     private userInfoService: UserInfoService, private spotifyService: SpotifyService){
-      //load lenguage from local storage
-    const lang = localStorage.getItem('lang');
+    // Configurar idiomas disponibles
     translate.addLangs(['en', 'es']);
     translate.setDefaultLang('en');
-    if (lang !== null) {
-      translate.setDefaultLang(lang);
+
+    // Detectar idioma: primero localStorage, luego navegador, finalmente default
+    const savedLang = localStorage.getItem('lang');
+    if (savedLang !== null && translate.getLangs().includes(savedLang)) {
+      // Usar idioma guardado si existe
+      translate.use(savedLang);
+    } else {
+      // Detectar idioma del navegador
+      const browserLang = translate.getBrowserLang();
+      const langToUse = browserLang && translate.getLangs().includes(browserLang) ? browserLang : 'en';
+      translate.use(langToUse);
+      // Guardar la detección automática en localStorage
+      localStorage.setItem('lang', langToUse);
     }
     this.oauthService.configure(authCodeFlowConfig);
     this.oauthService.setupAutomaticSilentRefresh();

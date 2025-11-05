@@ -1,0 +1,27 @@
+<div class="modal-header bg-dark text-white">
+  <h5 class="modal-title">{{ 'poster.title' | translate }}</h5>
+  <button type="button" class="btn-close btn-close-white" aria-label="Close" (click)="activeModal.dismiss()"></button>
+</div>
+<div class="modal-body text-center bg-dark">
+  <img [src]="posterUrl" class="img-fluid rounded shadow-lg" alt="Póster Cromático" style="max-height: 70vh;">
+</div>
+<div class="modal-footer bg-dark">
+  <a
+    [href]="posterUrl"
+    [download]="'paleta-cromatica-' + userName + '.png'"
+    class="btn btn-success">
+    <i class="bi bi-download"></i> {{ 'poster.download' | translate }}
+  </a>
+  <button
+    *ngIf="canShare"
+    (click)="share()"
+    class="btn btn-primary">
+    <i class="bi bi-share"></i> {{ 'poster.share' | translate }}
+  </button>
+  <button
+    type="button"
+    class="btn btn-secondary"
+    (click)="activeModal.close()">
+    {{ 'poster.close' | translate }}
+  </button>
+</div>
