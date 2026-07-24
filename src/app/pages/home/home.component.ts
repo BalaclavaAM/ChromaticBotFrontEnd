@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, DestroyRef, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { NgbModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Subject, merge, of } from 'rxjs';
+import { catchError, debounceTime, filter, switchMap, tap } from 'rxjs/operators';
 import { SpotifyLoginInfo } from 'src/app/models/spotifyLoginInfo';
 import { SpotifyTopInfo } from 'src/app/models/spotifyTopInfo';
 import { SpotifyService } from 'src/app/services/spotify.service';
@@ -16,14 +19,27 @@ import { PosterModalComponent } from 'src/app/ui-components/poster-modal/poster-
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.sass'],
     standalone: true,
-    imports: [CommonModule, ReactiveFormsModule, TranslateModule, NgbModule, AlbumCardComponent]
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [ReactiveFormsModule, TranslatePipe, NgbModule, AlbumCardComponent, RouterLink]
 })
 export class HomeComponent implements OnInit {
-  userProfile: SpotifyLoginInfo | undefined = this.userInfoService.userInfo;
+  userProfile: SpotifyLoginInfo | undefined;
 
-  isLoggedIn: boolean = this.userInfoService.loggedIn;
+  isLoggedIn = false;
 
   imagesInfo: SpotifyTopInfo[] = [];
+
+  isLoading = false;
+  isGeneratingPoster = false;
+  hasLoadError = false;
+
+  // Lomos de vinilo del hero: espectro con alturas pseudoaleatorias estables
+  readonly spines = Array.from({ length: 28 }, (_, i) => ({
+    color: `hsl(${Math.round((i / 28) * 330)} 72% ${52 + (i % 3) * 6}%)`,
+    height: 42 + ((i * 37) % 58),
+  }));
+
+  readonly skeletons = Array.from({ length: 12 });
 
   formGroup = new FormGroup({
     'tiempoRevision': new FormControl('6m'),
@@ -31,6 +47,10 @@ export class HomeComponent implements OnInit {
     'sortMode': new FormControl('hue'),
     'posterBackground': new FormControl('gradient-dark')
   })
+
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly loadRequests = new Subject<void>();
+
   constructor(
     public translate: TranslateService,
     private readonly spotifyService: SpotifyService,
@@ -40,61 +60,70 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.userInfoService.onChanged.subscribe((userInfo) => {
-      this.userProfile = userInfo;
-    });
-    this.userInfoService.onLoggedInChanged.subscribe((loggedIn) => {
-      this.isLoggedIn = loggedIn;
-    });
+    this.userInfoService.onChanged
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((userInfo) => {
+        this.userProfile = userInfo;
+      });
+    this.userInfoService.onLoggedInChanged
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((loggedIn) => {
+        this.isLoggedIn = loggedIn;
+        // Al llegar con sesión, cargar el espectro sin pedir un click extra
+        if (loggedIn && this.imagesInfo.length === 0 && !this.isLoading) {
+          this.getTop50Tracks();
+        }
+      });
 
-    // Re-fetch automático cuando cambia cantidad de canciones, modo de ordenamiento o temporalidad
-    this.formGroup.get('cantidadCanciones')?.valueChanges.subscribe(() => {
-      if (this.imagesInfo.length > 0) {
-        this.getTop50Tracks();
-      }
-    });
+    // switchMap cancela la petición anterior: sin respuestas fuera de orden
+    this.loadRequests
+      .pipe(
+        tap(() => {
+          this.isLoading = true;
+          this.hasLoadError = false;
+        }),
+        switchMap(() =>
+          this.spotifyService.getTop50Tracks(
+            this.formGroup.get('tiempoRevision')?.value ?? '6m',
+            this.formGroup.get('cantidadCanciones')?.value ?? '10',
+            this.formGroup.get('sortMode')?.value ?? 'hue'
+          ).pipe(
+            catchError((error) => {
+              console.error('Failed to load chromatic albums', error);
+              this.hasLoadError = true;
+              return of(null);
+            })
+          )
+        ),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe((res) => {
+        this.isLoading = false;
+        if (res !== null) {
+          this.imagesInfo = res;
+        }
+      });
 
-    this.formGroup.get('sortMode')?.valueChanges.subscribe(() => {
-      if (this.imagesInfo.length > 0) {
-        this.getTop50Tracks();
-      }
-    });
-
-    this.formGroup.get('tiempoRevision')?.valueChanges.subscribe(() => {
-      if (this.imagesInfo.length > 0) {
-        this.getTop50Tracks();
-      }
-    });
+    // Re-fetch automático cuando cambia cantidad, modo de ordenamiento o temporalidad
+    merge(
+      this.formGroup.get('cantidadCanciones')!.valueChanges,
+      this.formGroup.get('sortMode')!.valueChanges,
+      this.formGroup.get('tiempoRevision')!.valueChanges
+    )
+      .pipe(
+        filter(() => this.imagesInfo.length > 0),
+        debounceTime(300),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe(() => this.getTop50Tracks());
   }
 
   login(): void {
     this.spotifyService.login();
   }
 
-  isLoading: boolean = false;
-  isGeneratingPoster: boolean = false;
-
   getTop50Tracks(): void {
-    this.isLoading = true;
-    const timeRevision = this.formGroup.get('tiempoRevision')?.value;
-    const cantidadCanciones = this.formGroup.get('cantidadCanciones')?.value;
-    const sortMode = this.formGroup.get('sortMode')?.value;
-
-    this.spotifyService.getTop50Tracks(
-      timeRevision ?? "6m",
-      cantidadCanciones ?? "10",
-      sortMode ?? "hue"
-    ).subscribe({
-      next: (res) => {
-        console.log(res);
-        this.imagesInfo = res;
-        this.isLoading = false;
-      },
-      error: (err) => {
-        console.error(err);
-        this.isLoading = false;
-      }
-    });
+    this.loadRequests.next();
   }
 
   async generatePoster(): Promise<void> {
@@ -108,12 +137,12 @@ export class HomeComponent implements OnInit {
     try {
       const timeRange = this.getTimeRangeLabel();
       const backgroundStyle = this.formGroup.get('posterBackground')?.value ?? 'gradient-dark';
-      const posterUrl = await this.posterGenerator.generatePoster(
-        this.imagesInfo,
-        this.userProfile?.display_name ?? 'Usuario',
-        timeRange,
-        backgroundStyle
-      );
+      const userName = this.userProfile?.display_name ?? 'Usuario';
+      const posterUrl = await this.posterGenerator.generatePoster(this.imagesInfo, {
+        title: this.translate.instant('home.yourSpectrum'),
+        subtitle: `@${userName} · ${timeRange} · ${this.imagesInfo.length} ${this.translate.instant('home.albums')}`,
+        backgroundStyle,
+      });
 
       this.openPosterModal(posterUrl);
     } catch (error) {

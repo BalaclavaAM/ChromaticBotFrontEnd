@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { OAuthService } from 'angular-oauth2-oidc';
@@ -12,6 +12,7 @@ import { NavBarComponent } from './ui-components/nav-bar/nav-bar.component';
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.sass'],
     standalone: true,
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [RouterOutlet, NavBarComponent]
 })
 export class AppComponent {
@@ -20,20 +21,16 @@ export class AppComponent {
     private userInfoService: UserInfoService, private spotifyService: SpotifyService){
     // Configurar idiomas disponibles
     translate.addLangs(['en', 'es']);
-    translate.setDefaultLang('en');
+    translate.setFallbackLang('en');
 
-    // Detectar idioma: primero localStorage, luego navegador, finalmente default
+    // Idioma: la elección manual (menú → localStorage) manda; si no hay,
+    // se re-detecta el idioma del navegador en cada visita.
     const savedLang = localStorage.getItem('lang');
     if (savedLang !== null && translate.getLangs().includes(savedLang)) {
-      // Usar idioma guardado si existe
       translate.use(savedLang);
     } else {
-      // Detectar idioma del navegador
       const browserLang = translate.getBrowserLang();
-      const langToUse = browserLang && translate.getLangs().includes(browserLang) ? browserLang : 'en';
-      translate.use(langToUse);
-      // Guardar la detección automática en localStorage
-      localStorage.setItem('lang', langToUse);
+      translate.use(browserLang && translate.getLangs().includes(browserLang) ? browserLang : 'en');
     }
     this.oauthService.configure(authCodeFlowConfig);
     this.oauthService.setupAutomaticSilentRefresh();

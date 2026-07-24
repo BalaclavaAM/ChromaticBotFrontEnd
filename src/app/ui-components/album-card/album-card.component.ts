@@ -1,7 +1,8 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, Input, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
+
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { TranslatePipe } from '@ngx-translate/core';
 import { SpotifyTopInfo } from 'src/app/models/spotifyTopInfo';
 
 @Component({
@@ -21,10 +22,10 @@ import { SpotifyTopInfo } from 'src/app/models/spotifyTopInfo';
         ])
     ],
     standalone: true,
-    imports: [CommonModule, NgbModule]
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [NgbModule, TranslatePipe]
 })
 export class AlbumCardComponent implements OnInit {
-  displayData: boolean = false;
   smallTitle: string = "";
   state: string = "default";
   @Input() albumData: SpotifyTopInfo | undefined = undefined;
@@ -37,11 +38,6 @@ export class AlbumCardComponent implements OnInit {
     {
       this.smallTitle += "..";
     }
-  }
-
-  clickDisplayData()
-  {
-    this.displayData = !this.displayData;
   }
 
   cardClicked(){

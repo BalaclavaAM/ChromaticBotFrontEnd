@@ -1,26 +1,29 @@
-<div class="album-card"  [@cardFlip]="state" (click)="cardClicked()">
-    <div class="face back" *ngIf="state === 'default'">
-        <div class="album-art-container position-relative">
-            <span class="position-absolute top-0 end-0 badge bg-dark bg-opacity-75 m-1" style="z-index: 10; font-size: 0.7rem;">
-                {{this.albumData?.songs?.length}}
-                <i class="bi bi-music-note-list ms-1"></i>
-            </span>
-            <img class="album-image" (click)="clickDisplayData()" [src]="albumData?.image" [alt]="albumData?.album"
-                height="150" width="150">
-            <ul class="album-colors">
-                <li *ngFor="let color of albumData?.colors" [style.background-color]="'rgb(' + color.join(', ') + ')'">
-                </li>
-            </ul>
-        </div>
-        <div class="album-info">
-            <h4 class="album-title text-center" placement="bottom" [ngbTooltip]="albumData?.album">{{ smallTitle }}</h4>
-        </div>
-        <ul class="dominant-bar" [style.background-color]="'rgb(' + albumData?.dominant?.join(', ') + ')'"></ul>
+<div class="album-card" [@cardFlip]="state" (click)="cardClicked()" (keydown.enter)="cardClicked()" role="button" tabindex="0">
+  @if (state === 'default') {
+    <div class="face back">
+      <div class="cb-cover">
+        <img class="cb-cover-img" [src]="albumData?.image" [alt]="albumData?.album" loading="lazy">
+        <span class="cb-song-count mono">
+          {{ albumData?.songs?.length }}<i class="bi bi-music-note-list ms-1"></i>
+        </span>
+      </div>
+      <ul class="cb-palette" aria-hidden="true">
+        @for (color of albumData?.colors; track $index) {
+          <li [style.background-color]="'rgb(' + color.join(', ') + ')'"></li>
+        }
+      </ul>
+      <div class="cb-info">
+        <h3 class="cb-title" placement="bottom" [ngbTooltip]="albumData?.album">{{ smallTitle }}</h3>
+      </div>
     </div>
-    <div class="face front" *ngIf="state === 'flipped'">
-        <h5>Songs:</h5>
-        <ul class="album-songs">
-            <li *ngFor="let song of albumData?.songs">{{ song.name }} - {{ song.artists }}</li>
-        </ul>
+  } @else {
+    <div class="face front">
+      <p class="eyebrow mb-2">{{ 'albumCard.songs' | translate }}</p>
+      <ul class="cb-songs mono">
+        @for (song of albumData?.songs; track $index) {
+          <li>{{ song.name }} <span class="cb-song-artists">{{ song.artists }}</span></li>
+        }
+      </ul>
     </div>
+  }
 </div>

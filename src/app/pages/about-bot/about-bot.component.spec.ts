@@ -1,23 +1,24 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { TestBed } from '@angular/core/testing';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { provideTranslateService } from '@ngx-translate/core';
 import { AboutBotComponent } from './about-bot.component';
 
 describe('AboutBotComponent', () => {
-  let component: AboutBotComponent;
-  let fixture: ComponentFixture<AboutBotComponent>;
-
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AboutBotComponent ]
-    })
-    .compileComponents();
-
-    fixture = TestBed.createComponent(AboutBotComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+      imports: [AboutBotComponent],
+      providers: [
+        provideHttpClient(),
+        provideHttpClientTesting(),
+        provideTranslateService(),
+      ],
+    }).compileComponents();
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    const fixture = TestBed.createComponent(AboutBotComponent);
+    fixture.detectChanges();
+    expect(fixture.componentInstance).toBeTruthy();
   });
 });

@@ -1,6 +1,6 @@
 {
   "title": "ChromaticBot",
-  "navBar":{
+  "navBar": {
     "about": "About",
     "home": "Home",
     "setLanguage": "Language",
@@ -11,6 +11,15 @@
     "logout": "Logout"
   },
   "home": {
+    "heroEyebrow": "Spotify × color analysis",
+    "heroTitle": "Your music, sorted by color",
+    "heroSubtitle": "ChromaticBot reads the cover art of your most played albums and lines them up as a spectrum: red to violet, vivid to gray, light to dark.",
+    "heroHint": "How it works",
+    "timeRange": "Period",
+    "sortModeLabel": "Sort by",
+    "posterLabel": "Poster",
+    "yourSpectrum": "Your spectrum",
+    "albums": "albums",
     "loginDescription": "Get logged into Spotify to allow ChromaticBot do his magic.",
     "loginButton": "Login to Spotify",
     "logoutButton": "Logout",
@@ -18,6 +27,7 @@
     "startJourney": "Lets start your journey!",
     "startJourneyBtn": "Start",
     "loading": "Loading...",
+    "loadError": "We couldn't load your albums. Check your connection or try logging in again.",
     "radioButtons": {
       "1month": "1 month",
       "6months": "6 months",
@@ -26,9 +36,9 @@
     "quantityOfSongs": "Quantity of songs",
     "sortMode": "Sort by:",
     "sortModes": {
-      "hue": "Hue (Rainbow)",
-      "saturation": "Saturation (Vibrant → Gray)",
-      "brightness": "Brightness (Light → Dark)"
+      "hue": "Hue",
+      "saturation": "Saturation",
+      "brightness": "Brightness"
     },
     "posterBackground": "Poster background:",
     "posterBackgrounds": {
@@ -42,6 +52,9 @@
     },
     "generatePoster": "Generate Poster",
     "generatingPoster": "Generating poster..."
+  },
+  "albumCard": {
+    "songs": "Songs"
   },
   "poster": {
     "title": "Your Chromatic Poster",
@@ -96,7 +109,7 @@
     },
     "backButton": "Back to Home"
   },
-  "mainPage":{
+  "mainPage": {
     "description": "ChromaticBot is an Spotify bot to retrieve your albums ordered with the chromatic pattern."
   }
 }

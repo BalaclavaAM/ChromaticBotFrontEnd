@@ -1,0 +1,62 @@
+.cb-navbar
+  background: var(--cb-bg)
+  padding-top: 0.75rem
+  padding-bottom: 0.75rem
+
+.cb-shell-pad
+  padding-inline: clamp(1rem, 4vw, 2.5rem)
+
+.cb-brand
+  display: inline-flex
+  align-items: center
+  gap: 0.6rem
+  font-size: 1.15rem
+  font-weight: 800
+  color: var(--cb-text)
+
+.cb-brand-dot
+  width: 14px
+  height: 14px
+  border-radius: 50%
+  background: conic-gradient(#FF5340, #FFAE33, #F5E13F, #3FD974, #37C8F0, #7A63FF, #E45CFF, #FF5340)
+
+.nav-link
+  color: var(--cb-muted)
+  &:hover, &:focus
+    color: var(--cb-text)
+
+.nav-link--active
+  color: var(--cb-text)
+  font-weight: 600
+
+.cb-dropdown-toggle
+  cursor: pointer
+
+.cb-user-chip
+  display: inline-flex
+  align-items: center
+  gap: 0.5rem
+  padding: 0.25rem 0.75rem 0.25rem 0.25rem
+  border-radius: 999px
+  background: var(--cb-surface-2)
+  cursor: pointer
+
+.cb-avatar
+  width: 28px
+  height: 28px
+  border-radius: 50%
+  object-fit: cover
+
+.cb-avatar-fallback
+  display: inline-flex
+  align-items: center
+  justify-content: center
+  background: var(--cb-surface)
+  border: 1px solid var(--cb-line)
+  color: var(--cb-text)
+  font-size: 0.8rem
+  font-weight: 600
+
+.cb-user-name
+  font-size: 0.9rem
+  color: var(--cb-text)

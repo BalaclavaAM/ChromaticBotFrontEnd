@@ -1,13 +1,14 @@
-import { Component, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-poster-modal',
   standalone: true,
-  imports: [CommonModule, TranslateModule],
+  imports: [TranslatePipe],
   templateUrl: './poster-modal.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./poster-modal.component.sass']
 })
 export class PosterModalComponent {

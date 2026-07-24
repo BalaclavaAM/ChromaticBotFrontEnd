@@ -1,44 +1,42 @@
 /// <reference types="@angular/localize" />
 
-import { enableProdMode, importProvidersFrom } from '@angular/core';
+import { enableProdMode, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { provideHttpClient, withInterceptorsFromDi, HttpClient } from '@angular/common/http';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
+import { provideRouter } from '@angular/router';
 
 import { AppComponent } from './app/app.component';
-import { AppRoutingModule } from './app/app-routing.module';
+import { routes } from './app/app.routes';
+import { APP_CONFIG, AppConfig } from './app/app-config';
 import { environment } from './environments/environment';
 import { OAuthModule } from 'angular-oauth2-oidc';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-
-export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
-  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
-}
+import { provideTranslateService } from '@ngx-translate/core';
+import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 
 if (environment.production) {
   enableProdMode();
 }
 
-bootstrapApplication(AppComponent, {
-  providers: [
-    provideHttpClient(withInterceptorsFromDi()),
-    importProvidersFrom(
-      BrowserAnimationsModule,
-      AppRoutingModule,
-      ReactiveFormsModule,
-      FormsModule,
-      NgbModule,
-      OAuthModule.forRoot(),
-      TranslateModule.forRoot({
-        loader: {
-          provide: TranslateLoader,
-          useFactory: HttpLoaderFactory,
-          deps: [HttpClient],
-        },
-      })
-    )
-  ]
-}).catch(err => console.error(err));
+// La URL del backend se resuelve en runtime desde assets/config.json
+// (el contenedor la escribe al arrancar); environment queda como fallback.
+fetch('assets/config.json')
+  .then((response) => (response.ok ? response.json() : Promise.reject(new Error('config.json not found'))))
+  .catch(() => ({ apiBaseUrl: environment.apiBaseUrl }))
+  .then((config: AppConfig) =>
+    bootstrapApplication(AppComponent, {
+      providers: [
+        provideZoneChangeDetection(),
+        { provide: APP_CONFIG, useValue: config },
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
+        provideRouter(routes),
+        provideAnimations(),
+        provideTranslateService({
+          loader: provideTranslateHttpLoader({ prefix: './assets/i18n/', suffix: '.json' }),
+          fallbackLang: 'en',
+        }),
+        importProvidersFrom(OAuthModule.forRoot())
+      ]
+    })
+  )
+  .catch(err => console.error(err));

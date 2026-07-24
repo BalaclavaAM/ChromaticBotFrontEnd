@@ -1,40 +1,47 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-dark">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">{{ 'title' | translate }}</a>
+<nav class="navbar navbar-expand-lg cb-navbar">
+  <div class="container-fluid cb-shell-pad">
+    <a class="navbar-brand cb-brand font-display" routerLink="/home">
+      <span class="cb-brand-dot" aria-hidden="true"></span>{{ 'title' | translate }}
+    </a>
     <button class="navbar-toggler" type="button"
       aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" (click)="isMenuCollapsed = !isMenuCollapsed">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" [ngbCollapse]="isMenuCollapsed" id="navbarNav">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item active">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-lg-center gap-lg-1">
+        <li class="nav-item">
           <a class="nav-link" routerLink="/home" routerLinkActive="nav-link--active">{{ 'navBar.home' | translate }}</a>
         </li>
-        <li>
-          <a class="nav-link" routerLink="/about" routerLinkActive="nav-link--active">{{ 'navBar.about' | translate
-            }}</a>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/about" routerLinkActive="nav-link--active">{{ 'navBar.about' | translate }}</a>
         </li>
-        <div ngbDropdown class="d-inline-block">
-          <li class="nav-link btn-group dropdown bg-dark" id="dropdownMenu1" ngbDropdownToggle>{{'navBar.setLanguage' | translate}}</li>
-          <div ngbDropdownMenu aria-labelledby="dropdownMenu1" class="bg-dark">
-            <a class="dropdown-item text-white" (click)="switchLanguage('es')">{{ 'navBar.languages.spanish' | translate }}</a>
-            <a class="dropdown-item text-white" (click)="switchLanguage('en')">{{ 'navBar.languages.english' | translate }}</a>
-          </div>
-        </div>
-      </ul>
-      
-      <!-- Add the user photo and logout dropdown here -->
-      <div class="d-flex align-items-center" *ngIf="this.isLoggedIn">
-        <div ngbDropdown class="d-inline-block">
-          <a class="nav-link btn-group dropdown" id="dropdownMenu2" ngbDropdownToggle>
-            <img [src]="userProfile?.images?.[0]?.url" alt="User Photo" class="user-photo mr-2" width="32" height="32">
-            {{ userProfile?.display_name }}
+        <li class="nav-item" ngbDropdown>
+          <a class="nav-link cb-dropdown-toggle" id="dropdownMenu1" ngbDropdownToggle role="button" tabindex="0">
+            {{ 'navBar.setLanguage' | translate }}
           </a>
-          <div ngbDropdownMenu aria-labelledby="dropdownMenu2" class="bg-dark">
-            <a class="dropdown-item text-white" (click)="logout()">{{ 'navBar.logout' | translate }}</a>
+          <div ngbDropdownMenu aria-labelledby="dropdownMenu1">
+            <a class="dropdown-item" role="button" tabindex="0" (click)="switchLanguage('es')">{{ 'navBar.languages.spanish' | translate }}</a>
+            <a class="dropdown-item" role="button" tabindex="0" (click)="switchLanguage('en')">{{ 'navBar.languages.english' | translate }}</a>
+          </div>
+        </li>
+      </ul>
+
+      @if (isLoggedIn) {
+        <div class="d-flex align-items-center" ngbDropdown>
+          <a class="nav-link cb-user-chip" id="dropdownMenu2" ngbDropdownToggle role="button" tabindex="0">
+            @if (userProfile?.images?.[0]?.url) {
+              <img [src]="userProfile?.images?.[0]?.url" alt="" class="cb-avatar" width="28" height="28">
+            } @else {
+              <span class="cb-avatar cb-avatar-fallback" aria-hidden="true">{{ (userProfile?.display_name ?? '?').charAt(0).toUpperCase() }}</span>
+            }
+            <span class="cb-user-name">{{ userProfile?.display_name }}</span>
+          </a>
+          <div ngbDropdownMenu aria-labelledby="dropdownMenu2">
+            <a class="dropdown-item" role="button" tabindex="0" (click)="logout()">{{ 'navBar.logout' | translate }}</a>
           </div>
         </div>
-      </div>
+      }
     </div>
   </div>
 </nav>
+<div class="spectrum-strip" aria-hidden="true"></div>

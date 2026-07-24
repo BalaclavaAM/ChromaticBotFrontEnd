@@ -1,73 +1,82 @@
 .album-card
-  width: 100%
-  max-width: 250px
-  border: 1px solid #3a3a3a
-  border-radius: 5px
-  padding: 5px
-  cursor: pointer
   position: relative
+  aspect-ratio: 4 / 5
+  border-radius: 0.875rem
+  cursor: pointer
+  // ojo: sin overflow hidden aquí — aplanaría el contexto 3D del flip
   transform-style: preserve-3d
+  transition: box-shadow 0.18s ease
+  &:hover
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45)
 
 .face
-  display: block
-  width: 100%
-  height: 100%
+  position: absolute
+  inset: 0
+  display: flex
+  flex-direction: column
   border-radius: inherit
+  overflow: hidden
+  background: var(--cb-surface)
+  border: 1px solid var(--cb-line)
   backface-visibility: hidden
 
 .front
   transform: rotateY(180deg)
+  padding: 0.9rem
+  overflow-y: auto
 
-  
-.album-art-container
+.cb-cover
   position: relative
 
-.album-image
+.cb-cover-img
+  display: block
   width: 100%
-  height: auto
-  border-radius: 10px
+  aspect-ratio: 1 / 1
+  object-fit: cover
 
-.album-title
-  margin-top: 0
-  font-family: 'Roboto', sans-serif
-
-.album-colors
-  list-style: none
-  padding: 0
-  left: 86% !important
-  top: 13% !important
-  height: 100%
+.cb-song-count
   position: absolute
-  align-content: center
+  top: 0.5rem
+  right: 0.5rem
+  padding: 0.1rem 0.45rem
+  border-radius: 999px
+  background: rgba(10, 8, 14, 0.72)
+  color: var(--cb-text)
+  font-size: 0.7rem
 
-
-.album-info
-  margin: 20px
-
-.album-colors li
-  width: 30px
-  height: 30px
-  margin-right: 5px
-  border: 1px solid #a7a7a7
-  opacity: 0.8
-
-.album-dominant span
-  display: inline-block
-  width: 30px
-  height: 30px
-  border-radius: 50%
-  border: 1px solid #a7a7a7
-
-.album-songs
-  list-style: none
-  padding: 0
-
-.album-songs li
-  margin-bottom: 5px
-
-.dominant-bar
-  width: 100%
-  height: 20px
-  padding: 0
+// Paleta como paint-chips bajo el cover
+.cb-palette
+  display: flex
+  height: 12px
   margin: 0
-  border-radius: 5px
+  padding: 0
+  list-style: none
+  li
+    flex: 1 1 0
+
+.cb-info
+  display: flex
+  align-items: center
+  flex: 1 1 auto
+  padding: 0.4rem 0.7rem 0.55rem
+
+.cb-title
+  margin: 0
+  font-size: 0.9rem
+  font-weight: 600
+  line-height: 1.25
+  color: var(--cb-text)
+
+.cb-songs
+  margin: 0
+  padding: 0
+  list-style: none
+  font-size: 0.72rem
+  li
+    margin-bottom: 0.55rem
+    line-height: 1.35
+
+.cb-song-artists
+  display: block
+  color: var(--cb-muted)
+  font-size: 0.66rem

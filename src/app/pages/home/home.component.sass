@@ -1,5 +1,113 @@
-.card
-    background-size: cover
-    background-repeat: no-repeat
-    background-position: center center
+.cb-shell
+  max-width: 1280px
+  margin-inline: auto
+  padding-inline: clamp(1rem, 4vw, 2.5rem)
+
+// Hero
+.cb-hero
+  min-height: calc(100vh - 170px)
+  padding-block: 2rem
+
+.cb-hero-title
+  font-size: clamp(2.4rem, 5vw, 4rem)
+  line-height: 1.05
+  max-width: 14ch
+
+.cb-hero-sub
+  color: var(--cb-muted)
+  font-size: 1.1rem
+  max-width: 46ch
+
+// La estantería: lomos de vinilo en espectro
+.cb-shelf
+  display: flex
+  align-items: flex-end
+  gap: 6px
+  height: min(420px, 52vh)
+  padding: 0 1rem 0.75rem
+  border-bottom: 2px solid var(--cb-line)
+
+.cb-spine
+  flex: 1 1 0
+  min-width: 4px
+  border-radius: 3px 3px 0 0
+  transform-origin: bottom
+  animation: cb-spine-rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) backwards
+  @for $i from 1 through 28
+    &:nth-child(#{$i})
+      animation-delay: #{$i * 22}ms
+  &:hover
+    filter: brightness(1.25)
+
+@keyframes cb-spine-rise
+  from
+    transform: scaleY(0)
+  to
+    transform: scaleY(1)
+
+// Barra de controles
+.cb-controls
+  display: flex
+  flex-wrap: wrap
+  align-items: end
+  gap: 1.25rem 2rem
+  padding: 1.1rem 1.25rem
+  border-radius: 1rem
+  background: var(--cb-surface)
+  border: 1px solid var(--cb-line)
+
+.cb-control
+  display: flex
+  flex-direction: column
+  gap: 0.5rem
+
+.cb-control-grow
+  flex: 1 1 220px
+  min-width: 200px
+
+.cb-range-value
+  color: var(--cb-text)
+  margin-left: 0.35rem
+
+.cb-update-btn
+  margin-left: auto
+
+// Espectro real del usuario
+.cb-user-spectrum
+  display: flex
+  height: 14px
+  border-radius: 999px
+  overflow: hidden
+  span
+    flex: 1 1 0
+
+.cb-count
+  font-size: 0.85rem
+  color: var(--cb-muted)
+
+.cb-poster-select
+  width: auto
+  max-width: 220px
+
+// Skeletons
+.cb-skeleton
+  aspect-ratio: 4 / 5
+  border-radius: 0.875rem
+  background: linear-gradient(100deg, var(--cb-surface) 40%, var(--cb-surface-2) 50%, var(--cb-surface) 60%)
+  background-size: 200% 100%
+  animation: cb-shimmer 1.4s ease-in-out infinite
+
+@keyframes cb-shimmer
+  from
+    background-position: 120% 0
+  to
+    background-position: -80% 0
+
+@media (max-width: 575px)
+  .cb-update-btn
+    margin-left: 0
+    width: 100%
+  .cb-hero
+    min-height: auto
+  .cb-shelf
     height: 200px

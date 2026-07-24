@@ -1,21 +1,86 @@
-/* You can add global styles to this file, and also import other style files */
-@use "@fontsource/roboto-mono"
-@use "@fontsource/roboto"
-@use 'bootstrap/scss/bootstrap'
+/* Sistema de diseño ChromaticBot — "muro de vinilos ordenado por color" */
+@use 'bootstrap/scss/bootstrap' with ($primary: #1DB954, $success: #1DB954, $font-family-sans-serif: ('Instrument Sans', system-ui, -apple-system, 'Segoe UI', sans-serif), $border-radius: .625rem, $border-radius-sm: .5rem, $border-radius-lg: .875rem)
 
-$primary: #1DB954
+:root
+  --cb-bg: #14111A
+  --cb-surface: #1D1926
+  --cb-surface-2: #272134
+  --cb-line: #353044
+  --cb-text: #F4F1EC
+  --cb-muted: #A79FB5
+  --cb-spotify: #1DB954
+  --cb-focus: #7A63FF
+  --cb-spectrum: linear-gradient(90deg, #FF5340, #FFAE33, #F5E13F, #3FD974, #37C8F0, #7A63FF, #E45CFF)
 
-.nav-link
-  color: #ffffff !important
+[data-bs-theme=dark]
+  --bs-body-bg: var(--cb-bg)
+  --bs-body-color: var(--cb-text)
+  --bs-border-color: var(--cb-line)
+  --bs-secondary-color: var(--cb-muted)
+  --bs-tertiary-bg: var(--cb-surface)
+  --bs-secondary-bg: var(--cb-surface-2)
 
-.nav-link--active
-  color: #157347 !important
-  font-weight: bold
+// Tipografía: Syne para display, Instrument Sans para cuerpo, mono para datos
+.font-display
+  font-family: 'Syne', 'Instrument Sans', sans-serif
+  font-weight: 800
+  letter-spacing: -0.02em
 
-.navbar-brand
-  color: #ffffff !important
-  font-weight: bold
-
-body, h1, h2, h3, h4, h5, h6, p, span, div, button, input, select, textarea, a
+.mono
   font-family: 'Roboto Mono', monospace
-  color: #ffffff
+
+.eyebrow
+  font-family: 'Roboto Mono', monospace
+  font-size: 0.72rem
+  font-weight: 500
+  letter-spacing: 0.18em
+  text-transform: uppercase
+  color: var(--cb-muted)
+
+// La firma: franja espectral
+.spectrum-strip
+  height: 3px
+  background: var(--cb-spectrum)
+
+// Controles segmentados (radios .btn-check + labels)
+.cb-seg
+  display: inline-flex
+  gap: 2px
+  padding: 4px
+  border-radius: 999px
+  background: var(--cb-surface-2)
+
+.cb-seg-btn
+  --bs-btn-color: var(--cb-muted)
+  --bs-btn-border-width: 0
+  --bs-btn-padding-y: .35rem
+  --bs-btn-padding-x: .9rem
+  --bs-btn-font-size: .85rem
+  border-radius: 999px !important
+
+.btn-check:checked + .cb-seg-btn
+  background: var(--cb-surface)
+  color: var(--cb-text)
+  box-shadow: inset 0 0 0 1px var(--cb-line), 0 2px 6px rgba(0, 0, 0, 0.35)
+
+.btn-check:focus-visible + .cb-seg-btn
+  outline: 2px solid var(--cb-focus)
+  outline-offset: 2px
+
+// Enlaces discretos
+.cb-link
+  color: var(--cb-muted)
+  text-decoration: underline
+  text-underline-offset: 4px
+  &:hover
+    color: var(--cb-text)
+
+:focus-visible
+  outline: 2px solid var(--cb-focus)
+  outline-offset: 2px
+
+@media (prefers-reduced-motion: reduce)
+  *, *::before, *::after
+    animation-duration: 0.01ms !important
+    animation-iteration-count: 1 !important
+    transition-duration: 0.01ms !important

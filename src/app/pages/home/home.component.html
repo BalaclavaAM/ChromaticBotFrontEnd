@@ -1,118 +1,140 @@
-<!-- Login Section -->
-<div *ngIf="!this.isLoggedIn" class="container">
-  <div class="row justify-content-center">
-    <div class="col-12 col-md-8 col-lg-6 text-center py-5">
-      <h4 class="mb-4">{{ 'home.loginDescription' | translate }}</h4>
-      <button class="btn btn-success btn-lg" (click)="login()">
-        {{ 'home.loginButton' | translate }}
-      </button>
-    </div>
-  </div>
-</div>
-
-<!-- Main Content -->
-<div class="container-fluid" *ngIf="this.isLoggedIn">
-  <!-- Welcome & Controls -->
-  <div class="row justify-content-center">
-    <div class="col-12 col-lg-10 col-xl-8">
-      <div class="text-center py-4">
-        <h5 class="mb-4">
-          {{ 'home.welcome' | translate }} {{ this.userProfile?.display_name }}.
-          {{ 'home.startJourney' | translate }}
-        </h5>
-
-        <form [formGroup]="formGroup" class="mb-4">
-          <!-- Time Range Buttons -->
-          <div class="mb-4">
-            <div class="btn-group" role="group">
-              <input type="radio" class="btn-check" formControlName="tiempoRevision"
-                     id="btnradio1" value="1m">
-              <label class="btn btn-outline-success" for="btnradio1">
-                {{ 'home.radioButtons.1month' | translate }}
-              </label>
-
-              <input type="radio" class="btn-check" formControlName="tiempoRevision"
-                     id="btnradio2" value="6m">
-              <label class="btn btn-outline-success" for="btnradio2">
-                {{ 'home.radioButtons.6months' | translate }}
-              </label>
-
-              <input type="radio" class="btn-check" formControlName="tiempoRevision"
-                     id="btnradio3" value="a">
-              <label class="btn btn-outline-success" for="btnradio3">
-                {{ 'home.radioButtons.allTime' | translate }}
-              </label>
-            </div>
-          </div>
-
-          <!-- Quantity Slider -->
-          <div class="row justify-content-center mb-4">
-            <div class="col-12 col-md-8 col-lg-6">
-              <label for="rangeQuantity" class="form-label">
-                {{ 'home.quantityOfSongs' | translate }} {{ formGroup.get('cantidadCanciones')?.value }}
-              </label>
-              <input type="range" class="form-range" min="1" max="50" step="1"
-                     id="rangeQuantity" formControlName="cantidadCanciones">
-            </div>
-          </div>
-
-          <!-- Sort Mode Select -->
-          <div class="row justify-content-center mb-4">
-            <div class="col-12 col-md-6 col-lg-4">
-              <label class="form-label">{{ 'home.sortMode' | translate }}</label>
-              <select class="form-select" formControlName="sortMode">
-                <option value="hue">{{ 'home.sortModes.hue' | translate }}</option>
-                <option value="saturation">{{ 'home.sortModes.saturation' | translate }}</option>
-                <option value="brightness">{{ 'home.sortModes.brightness' | translate }}</option>
-              </select>
-            </div>
-          </div>
-
-          <!-- Poster Background Select -->
-          <div class="row justify-content-center mb-4" *ngIf="imagesInfo.length > 0">
-            <div class="col-12 col-md-6 col-lg-4">
-              <label class="form-label">{{ 'home.posterBackground' | translate }}</label>
-              <select class="form-select" formControlName="posterBackground">
-                <option value="gradient-dark">{{ 'home.posterBackgrounds.gradientDark' | translate }}</option>
-                <option value="gradient-spotify">{{ 'home.posterBackgrounds.gradientSpotify' | translate }}</option>
-                <option value="gradient-sunset">{{ 'home.posterBackgrounds.gradientSunset' | translate }}</option>
-                <option value="gradient-ocean">{{ 'home.posterBackgrounds.gradientOcean' | translate }}</option>
-                <option value="gradient-purple">{{ 'home.posterBackgrounds.gradientPurple' | translate }}</option>
-                <option value="solid-black">{{ 'home.posterBackgrounds.solidBlack' | translate }}</option>
-                <option value="solid-white">{{ 'home.posterBackgrounds.solidWhite' | translate }}</option>
-              </select>
-            </div>
-          </div>
-        </form>
-
-        <!-- Start Button -->
-        <button (click)="getTop50Tracks()" class="btn btn-success btn-lg" [disabled]="isLoading">
-          <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2"></span>
-          {{ isLoading ? ('home.loading' | translate) : ('home.startJourneyBtn' | translate) }}
-        </button>
+<!-- Hero (sin sesión) -->
+@if (!isLoggedIn) {
+  <section class="cb-shell">
+    <div class="row align-items-center g-5 cb-hero">
+      <div class="col-12 col-lg-6">
+        <p class="eyebrow mb-3">{{ 'home.heroEyebrow' | translate }}</p>
+        <h1 class="font-display cb-hero-title mb-3">{{ 'home.heroTitle' | translate }}</h1>
+        <p class="cb-hero-sub mb-4">{{ 'home.heroSubtitle' | translate }}</p>
+        <div class="d-flex flex-wrap gap-4 align-items-center">
+          <button class="btn btn-success btn-lg" (click)="login()">
+            {{ 'home.loginButton' | translate }}
+          </button>
+          <a routerLink="/about" class="cb-link">{{ 'home.heroHint' | translate }}</a>
+        </div>
       </div>
-    </div>
-  </div>
-
-  <!-- Generate Poster Button -->
-  <div class="row justify-content-center" *ngIf="imagesInfo.length > 0">
-    <div class="col-12 text-center my-4">
-      <button (click)="generatePoster()" class="btn btn-primary btn-lg" [disabled]="isGeneratingPoster">
-        <span *ngIf="isGeneratingPoster" class="spinner-border spinner-border-sm me-2"></span>
-        <i *ngIf="!isGeneratingPoster" class="bi bi-image me-2"></i>
-        {{ isGeneratingPoster ? ('home.generatingPoster' | translate) : ('home.generatePoster' | translate) }}
-      </button>
-    </div>
-  </div>
-
-  <!-- Albums Grid -->
-  <div class="row justify-content-center pb-5" *ngIf="imagesInfo.length > 0">
-    <div class="col-12 col-xxl-10">
-      <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 row-cols-xl-6 g-3 g-md-4">
-        <div class="col" *ngFor="let imageInfo of imagesInfo">
-          <app-album-card [albumData]="imageInfo"></app-album-card>
+      <div class="col-12 col-lg-6">
+        <!-- La firma: estantería de lomos de vinilo en espectro -->
+        <div class="cb-shelf" aria-hidden="true">
+          @for (spine of spines; track $index) {
+            <span class="cb-spine" [style.background]="spine.color" [style.height.%]="spine.height"></span>
+          }
         </div>
       </div>
     </div>
+  </section>
+}
+
+<!-- Contenido principal (con sesión) -->
+@if (isLoggedIn) {
+  <div class="cb-shell pb-5">
+    <header class="pt-4 pb-3">
+      <p class="eyebrow mb-1">{{ 'home.welcome' | translate }} {{ userProfile?.display_name }}</p>
+      <h2 class="font-display h3 mb-0">{{ 'home.startJourney' | translate }}</h2>
+    </header>
+
+    <form [formGroup]="formGroup" class="cb-controls">
+      <div class="cb-control">
+        <span class="eyebrow">{{ 'home.timeRange' | translate }}</span>
+        <div class="cb-seg" role="group">
+          <input type="radio" class="btn-check" formControlName="tiempoRevision" id="btnradio1" value="1m">
+          <label class="btn cb-seg-btn" for="btnradio1">{{ 'home.radioButtons.1month' | translate }}</label>
+          <input type="radio" class="btn-check" formControlName="tiempoRevision" id="btnradio2" value="6m">
+          <label class="btn cb-seg-btn" for="btnradio2">{{ 'home.radioButtons.6months' | translate }}</label>
+          <input type="radio" class="btn-check" formControlName="tiempoRevision" id="btnradio3" value="a">
+          <label class="btn cb-seg-btn" for="btnradio3">{{ 'home.radioButtons.allTime' | translate }}</label>
+        </div>
+      </div>
+
+      <div class="cb-control">
+        <span class="eyebrow">{{ 'home.sortModeLabel' | translate }}</span>
+        <div class="cb-seg" role="group">
+          <input type="radio" class="btn-check" formControlName="sortMode" id="sortHue" value="hue">
+          <label class="btn cb-seg-btn" for="sortHue">{{ 'home.sortModes.hue' | translate }}</label>
+          <input type="radio" class="btn-check" formControlName="sortMode" id="sortSat" value="saturation">
+          <label class="btn cb-seg-btn" for="sortSat">{{ 'home.sortModes.saturation' | translate }}</label>
+          <input type="radio" class="btn-check" formControlName="sortMode" id="sortBri" value="brightness">
+          <label class="btn cb-seg-btn" for="sortBri">{{ 'home.sortModes.brightness' | translate }}</label>
+        </div>
+      </div>
+
+      <div class="cb-control cb-control-grow">
+        <label class="eyebrow" for="rangeQuantity">
+          {{ 'home.quantityOfSongs' | translate }}
+          <span class="mono cb-range-value">{{ formGroup.get('cantidadCanciones')?.value }}</span>
+        </label>
+        <input type="range" class="form-range" min="1" max="50" step="1"
+          id="rangeQuantity" formControlName="cantidadCanciones">
+      </div>
+
+      <button type="button" (click)="getTop50Tracks()" class="btn btn-success cb-update-btn" [disabled]="isLoading">
+        @if (isLoading) {
+          <span class="spinner-border spinner-border-sm me-2"></span>
+        }
+        {{ isLoading ? ('home.loading' | translate) : ('home.startJourneyBtn' | translate) }}
+      </button>
+    </form>
+
+    @if (hasLoadError) {
+      <div class="alert alert-danger my-4" role="alert">
+        {{ 'home.loadError' | translate }}
+      </div>
+    }
+
+    <!-- Skeletons durante la primera carga -->
+    @if (isLoading && imagesInfo.length === 0) {
+      <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 row-cols-xl-6 g-3 g-md-4 mt-2">
+        @for (s of skeletons; track $index) {
+          <div class="col"><div class="cb-skeleton"></div></div>
+        }
+      </div>
+    }
+
+    @if (imagesInfo.length > 0) {
+      <!-- Espectro real del usuario -->
+      <section class="mt-4">
+        <div class="d-flex flex-wrap align-items-end justify-content-between gap-3 mb-2">
+          <div>
+            <p class="eyebrow mb-1">{{ 'home.yourSpectrum' | translate }}</p>
+            <span class="mono cb-count">{{ imagesInfo.length }} {{ 'home.albums' | translate }}</span>
+          </div>
+          <div class="d-flex align-items-center gap-2 cb-poster-row">
+            <label class="eyebrow mb-0" for="posterBg">{{ 'home.posterLabel' | translate }}</label>
+            <select class="form-select form-select-sm cb-poster-select" id="posterBg" [formControl]="formGroup.controls.posterBackground">
+              <option value="gradient-dark">{{ 'home.posterBackgrounds.gradientDark' | translate }}</option>
+              <option value="gradient-spotify">{{ 'home.posterBackgrounds.gradientSpotify' | translate }}</option>
+              <option value="gradient-sunset">{{ 'home.posterBackgrounds.gradientSunset' | translate }}</option>
+              <option value="gradient-ocean">{{ 'home.posterBackgrounds.gradientOcean' | translate }}</option>
+              <option value="gradient-purple">{{ 'home.posterBackgrounds.gradientPurple' | translate }}</option>
+              <option value="solid-black">{{ 'home.posterBackgrounds.solidBlack' | translate }}</option>
+              <option value="solid-white">{{ 'home.posterBackgrounds.solidWhite' | translate }}</option>
+            </select>
+            <button (click)="generatePoster()" class="btn btn-outline-light btn-sm cb-poster-btn" [disabled]="isGeneratingPoster">
+              @if (isGeneratingPoster) {
+                <span class="spinner-border spinner-border-sm me-1"></span>
+              } @else {
+                <i class="bi bi-image me-1"></i>
+              }
+              {{ isGeneratingPoster ? ('home.generatingPoster' | translate) : ('home.generatePoster' | translate) }}
+            </button>
+          </div>
+        </div>
+
+        <div class="cb-user-spectrum" aria-hidden="true">
+          @for (album of imagesInfo; track album.image) {
+            <span [style.background-color]="'rgb(' + album.dominant.join(',') + ')'"></span>
+          }
+        </div>
+      </section>
+
+      <!-- Grilla de álbumes -->
+      <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 row-cols-xl-6 g-3 g-md-4 mt-1">
+        @for (imageInfo of imagesInfo; track imageInfo) {
+          <div class="col">
+            <app-album-card [albumData]="imageInfo"></app-album-card>
+          </div>
+        }
+      </div>
+    }
   </div>
-</div>
+}

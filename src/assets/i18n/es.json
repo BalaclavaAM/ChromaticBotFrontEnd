@@ -1,6 +1,6 @@
 {
   "title": "ChromaticBot",
-  "navBar":{
+  "navBar": {
     "about": "Sobre",
     "home": "Inicio",
     "setLanguage": "Idioma",
@@ -11,6 +11,15 @@
     "logout": "Cerrar sesión"
   },
   "home": {
+    "heroEyebrow": "Spotify × análisis de color",
+    "heroTitle": "Tu música, ordenada por color",
+    "heroSubtitle": "ChromaticBot lee las carátulas de tus álbumes más escuchados y las alinea como un espectro: del rojo al violeta, de lo vibrante a lo gris, de lo claro a lo oscuro.",
+    "heroHint": "Cómo funciona",
+    "timeRange": "Período",
+    "sortModeLabel": "Ordenar por",
+    "posterLabel": "Póster",
+    "yourSpectrum": "Tu espectro",
+    "albums": "álbumes",
     "loginDescription": "Logeate dentro de Spotify para que ChromaticBot haga su magia.",
     "loginButton": "Iniciar sesión en Spotify",
     "logoutButton": "Cerrar sesión",
@@ -18,6 +27,7 @@
     "startJourney": "Vamos a comenzar tu viaje!",
     "startJourneyBtn": "Comenzar",
     "loading": "Cargando...",
+    "loadError": "No pudimos cargar tus álbumes. Revisa tu conexión o intenta iniciar sesión de nuevo.",
     "radioButtons": {
       "1month": "1 Mes",
       "6months": "6 Meses",
@@ -26,9 +36,9 @@
     "quantityOfSongs": "Cantidad de canciones",
     "sortMode": "Ordenar por:",
     "sortModes": {
-      "hue": "Matiz (Arcoíris)",
-      "saturation": "Saturación (Vibrante → Gris)",
-      "brightness": "Brillo (Claro → Oscuro)"
+      "hue": "Matiz",
+      "saturation": "Saturación",
+      "brightness": "Brillo"
     },
     "posterBackground": "Fondo del póster:",
     "posterBackgrounds": {
@@ -42,6 +52,9 @@
     },
     "generatePoster": "Generar Póster",
     "generatingPoster": "Generando póster..."
+  },
+  "albumCard": {
+    "songs": "Canciones"
   },
   "poster": {
     "title": "Tu Póster Cromático",
@@ -96,7 +109,7 @@
     },
     "backButton": "Volver al Inicio"
   },
-  "mainPage":{
+  "mainPage": {
     "description": "ChromaticBot es un bot de Spotify para obtener tus álbumes ordenados con el patrón cromático."
   }
 }
